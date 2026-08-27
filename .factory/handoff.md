@@ -1,4 +1,29 @@
-# Diagnostic Packet v0.1.0 — handoff
+# Diagnostic Packet v0.1.0 — verification handoff: **FAIL**
+
+Independent verification of candidate `29aeb8e321c7bc7179a9c48a08a258d2f80f3343`
+on 2026-08-27 UTC is **FAIL**. The detailed, evidence-backed record is in
+[`verification-1.md`](verification-1.md).
+
+The candidate installs, packages, tests, lints, and builds successfully; its
+live static files exactly match <https://dev-diagnostic-packet.sociobot.in/>.
+It must not be accepted, however, because the literal README/default CLI flow
+`init` then `preview` fails with an I/O error, and the PWA fails offline reload
+after an initial online visit. No product code was modified during verification.
+
+## Required next steps
+
+1. Fix bare default manifest-path handling and add an integration test for the
+   literal documented sequence.
+2. Fix service-worker shell caching/update behavior and add an offline-reload
+   browser test.
+3. Configure immutable caching for content-hashed assets and add CSP/
+   Permissions-Policy response headers.
+4. Re-run the clean verification steps in `verification-1.md`, including a
+   clean-consumer package install, before changing this handoff to PASS.
+
+---
+
+# Builder handoff retained for context
 
 ## What shipped
 
