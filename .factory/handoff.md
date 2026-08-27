@@ -56,7 +56,7 @@ cargo package --locked
 
 The verified crate contains 16 source/documentation/example files and is about 22 KB compressed. Publishing was intentionally not performed.
 
-## Verification completed
+## Builder-reported verification (superseded by the FAIL above)
 
 - `npm test`: pass — 7 Rust unit tests, 2 end-to-end CLI tests, and 12 Playwright tests across desktop Chromium and a 390 × 844 mobile Chromium viewport.
 - Playwright + axe: no serious or critical accessibility violations on `/`, `/privacy/`, or `/terms/`; no browser console errors; one `<h1>`, `lang`, main landmark, alt text, keyboard demo path, visible focus, and mobile overflow are asserted.
