@@ -1,0 +1,12 @@
+{
+  "slug": "dev-diagnostic-packet",
+  "title": "Diagnostic Packet",
+  "territory": "devtools-data",
+  "user": "Developers escalating a hard-to-reproduce local tool, editor, or environment failure who need to send a safe, complete reproduction packet without manually assembling screenshots, logs, versions, and configuration.",
+  "smallest_useful_product": "A CLI that runs an opt-in project diagnostic manifest, captures tool versions/config hashes/redacted logs/reproduction commands, and exports a self-contained zip plus readable HTML.",
+  "success_measure": "For pilot bug reports, maintainers request one fewer follow-up clarification on average and reproduce 70% of reported failures from the packet.",
+  "artifact_class": "cli",
+  "monetization": "free",
+  "constraints": "Every collector is allowlisted and previewable; redact tokens, home paths, and PII; make archive contents inspectable before export; no background collection.",
+  "state": "RESEARCHED"
+}
