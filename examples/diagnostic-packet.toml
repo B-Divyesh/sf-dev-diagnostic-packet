@@ -1,0 +1,27 @@
+format_version = 1
+title = "Editor startup failure"
+
+[incident]
+summary = "Editor exits while opening this workspace"
+expected = "Workspace opens"
+actual = "Process exits with status 1"
+steps = ["Clone the repository", "Run: code ."]
+
+[[collectors]]
+id = "system"
+type = "system"
+
+[[collectors]]
+id = "node"
+type = "tool-version"
+command = ["node", "--version"]
+
+[[collectors]]
+id = "lockfile"
+type = "config-hash"
+path = "package-lock.json"
+
+[[collectors]]
+id = "environment"
+type = "environment"
+names = ["CI", "TERM", "SHELL"]

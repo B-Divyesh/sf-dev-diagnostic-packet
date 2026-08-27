@@ -1,6 +1,9 @@
-node_modules/
-dist/
-.env
-*.log
-graphify-out/
+/target/
+/node_modules/
+/dist/
+/playwright-report/
+/test-results/
+/graphify-out/
+/.diagnostic-packet/
+*.zip
 .DS_Store
