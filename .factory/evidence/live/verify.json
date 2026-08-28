@@ -1,0 +1,14 @@
+{
+  "url": "https://dev-diagnostic-packet.sociobot.in/demo/",
+  "loadMs": 961,
+  "errors": [],
+  "a11y": {
+    "title": "Demo — Diagnostic Packet",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 862
+  }
+}

@@ -8,7 +8,7 @@ Local evidence: `.factory/evidence/local/screenshot-desktop.png`, `.factory/evid
 | F-1-2 | Rewrote the first screen with job, developer, and one demo action. | home screenshot; `@claim:demo-sandbox` |
 | F-1-3 | Added CLI demo, `/demo/`, `?demo=1`, banner, reset, and docs. | `@claim:demo-sandbox`; `.factory/demo.md` |
 | F-1-4 | Added registry and one tagged test per listed claim. | `rg @claim:`; `npm test` |
-| F-1-5 | Added broadsheet 404 page and response override. | `@claim:routes-and-404`; `/404.html` |
+| F-1-5 | Added broadsheet 404 page and response override. | `@claim:routes-and-404`; live `/does-not-exist` HTTP 404 |
 | F-1-6 | Tested local output and same-origin site requests. | `@claim:local-only`; `@claim:site-private` |
 | F-1-7 | Tested the manifest preview. | `@claim:manifest-plan` |
 | F-1-8 | Tested preview leaves no review folder. | `@claim:preview-read-only` |
@@ -28,7 +28,7 @@ Local evidence: `.factory/evidence/local/screenshot-desktop.png`, `.factory/evid
 | F-1-22 | Tested request origin and cookies. | `@claim:site-private` |
 | F-1-23 | Tested service-worker cache removal. | `@claim:clear-cache` |
 | F-1-24 | Tested Arrow, Home, and End navigation. | `@claim:demo-keyboard` |
-| F-1-25 | Added canonical/social metadata, icons, and social card. | `@claim:routes-and-404`; local verify |
+| F-1-25 | Added canonical/social metadata, icons, and social card. | `@claim:routes-and-404`; live URL check |
 | F-1-26 | Added robots and sitemap. | `dist/site/robots.txt`, `sitemap.xml` |
 | F-1-27 | Applied one header/footer skeleton with ownership/build id. | local screenshots |
 | F-1-28 | Added focusable H1s and polite route announcements. | browser suite |

@@ -11,10 +11,10 @@ Repair closes all 43 findings from review 1. The CLI remains a Rust/clap single 
 
 ## Verification
 
-- `npm test`: passed 54 Playwright executions (desktop + 390px mobile), 7 Rust unit tests, and 3 CLI integration tests. It includes every `@claim:*` test, Axe serious/critical checks, offline reload, privacy, mobile overflow, and static budget checks.
+- `npm test`: passed 56 Playwright executions (desktop + 390px mobile), 7 Rust unit tests, and 3 CLI integration tests. It includes every `@claim:*` test, Axe serious/critical checks, offline reload, privacy, mobile overflow, route-focus, and static budget checks.
 - `npm run build`: passed; produced `dist/diagnostic-packet` and `dist/site/`. Built JS gzip: 2.86 KB; CSS gzip: 3.90 KB; social image: 76 KB.
 - `cargo clippy --all-targets --all-features -- -D warnings`: passed.
-- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo/ .factory/evidence/local`: passed with no console errors, `lang=en`, one H1, a main landmark, and no missing image alt text. Desktop/mobile screenshots and `verify.json` are saved there.
+- `/opt/fleet/lib/verify-url.sh` passed locally for `/demo/` and cold on the deployed Home and Demo pages. Evidence is in `.factory/evidence/local`, `.factory/evidence/live`, and `.factory/evidence/live-home`; each report has no console errors, `lang=en`, one H1, a main landmark, and no missing image alt text.
 - Standalone `npx @axe-core/cli` could not launch its Selenium Chrome binary in this container. The repo's `@axe-core/playwright` integration passed with zero serious/critical violations on Home, Privacy, and Terms at both viewports.
 
 ## Run
@@ -28,4 +28,4 @@ npm run build
 
 ## Known gaps
 
-None. Deployment and final cold live recheck follow the repair commit.
+None. Commit `aa11a6163b01fefa4148423d6e5fbf73c6c85534` is pushed and deployed to <https://dev-diagnostic-packet.sociobot.in>. Cold live recheck: Home, `?demo=1`, `/demo/`, Privacy, Terms, metadata assets, robots, and sitemap returned 200; `/does-not-exist` returned the designed page with HTTP 404.

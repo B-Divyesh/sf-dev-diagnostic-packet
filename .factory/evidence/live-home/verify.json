@@ -1,0 +1,14 @@
+{
+  "url": "https://dev-diagnostic-packet.sociobot.in/",
+  "loadMs": 827,
+  "errors": [],
+  "a11y": {
+    "title": "Diagnostic Packet — Safe bug-report packets",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 2354
+  }
+}
