@@ -1,4 +1,4 @@
-# Diagnostic Packet v0.1.1 — repair handoff: **PASS (local release gates)**
+# Diagnostic Packet v0.1.1 — repair handoff: **PASS**
 
 This repair addresses every release-blocking finding in independent verification
 of candidate `29aeb8e321c7bc7179a9c48a08a258d2f80f3343` (report recorded in
