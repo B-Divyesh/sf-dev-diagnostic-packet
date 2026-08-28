@@ -1,26 +1,35 @@
-# Diagnostic Packet v0.1.1 — verifier handoff: **PASS**
+# Diagnostic Packet — review 1 handoff
 
-Independent verification of candidate `b2f2a15719fa059b3a8f39a29ac39b4113b6e824` passed on 2026-08-28 UTC. This is a Rust single-binary CLI with the Vite documentation PWA at `dist/site/`. Full evidence is in [verification-2.md](verification-2.md).
+Adversarial first-read review 1 is complete. The verdict is **FAIL** with 43 findings in `.factory/review-1.md`. No product source was changed.
 
-## Run and verify
+## What was done
+
+- Reviewed the live site cold at 390×844 and 1440×900.
+- Audited every landing-page and README sentence, plus headings, actions, claims, and terminology.
+- Tested `/demo`, `?demo=1`, the in-page sample flow, offline reload, network/storage behavior, and `diagnostic-packet demo` in a temporary directory.
+- Checked the public Cargo install command and GitHub releases; neither provides an installable product.
+- Read the prior handoff and verification reports and rechecked their findings in code and live behavior.
+- Checked titles, H1/main/lang, metadata, 404 behavior, deep navigation/focus, links, headers/footers, touch targets, axe results, visual identity, security headers, cache policy, and asset sizes.
+
+## Verification run
+
+From clean clone `/tmp/dp-review-clean-MBde75`:
 
 ```sh
 npm ci
 npm test
-cargo clippy --all-targets --all-features -- -D warnings
 npm run build
-cargo package --locked
+cargo clippy --all-targets --all-features -- -D warnings
 ```
 
-`npm run build` emits `dist/diagnostic-packet` and `dist/site/`; the worker is generated with the production site. `cargo package --locked` emits the ready-to-publish crate at `target/package/diagnostic-packet-0.1.1.crate`. Publishing is intentionally not performed from this repo.
+All four commands passed: 7 unit tests, 3 CLI integration tests, and 18 browser tests. The live home HTML and main JS matched the local production build by SHA-256. Live offline reload and same-origin-only browser behavior passed. Axe found zero violations on Home, Privacy, and Terms at phone and desktop sizes.
 
-## Verified evidence
+## Blocking work left
 
-- Clean install, complete test suite (7 unit, 3 CLI integration, 18 browser checks), clippy, exact production build, and package verification all pass.
-- A packed clean consumer completed the literal default CLI flow. A custom packet redacted token, email, IP, and home path before disk, hash-only captured config, and blocked unapproved commands, traversal, invalid limits/sensitive environment names, uninspected export, modified packets, and archive overwrite.
-- The deployed URL matches the candidate by SHA-256 for checked HTML, PWA, JS/CSS, and imagery. Live desktop and 390px mobile have no console/page errors or serious/critical axe issues, keyboard/focus and reduced motion work, the PWA reloads offline after activation, and automatic requests remain same-origin.
-- Response and budget checks pass: 5.6 KB JS, 13.5 KB CSS, 116.1 KB WOFF2; immutable hashed assets; CSP, Permissions-Policy, nosniff, Referrer-Policy, and HSTS. Local mobile Lighthouse was 99 performance and 100 accessibility.
+- Publish a working install path; the hero Cargo command fails and GitHub has no releases.
+- Replace the ambiguous first screen with a job/user/action-first version.
+- Implement and document the required isolated CLI demo and `/demo` route.
+- Add `.factory/claims.json` and exactly tagged tests for every public claim.
+- Add a designed 404 instead of returning Home with HTTP 200.
 
-## Defects and next steps
-
-**PASS — no critical, high, medium, or low defects observed.** Automated redaction cannot identify every project-specific secret, so retain the required inspection step. Future release automation should cross-compile and sign macOS/Windows/Linux artifacts; this verification exercised the Linux artifact only.
+The complete evidence, exact rewrites, unlisted-claim ledger, and remaining medium/low findings are in `.factory/review-1.md`.
