@@ -1,35 +1,31 @@
-# Diagnostic Packet — review 1 handoff
+# Diagnostic Packet — polish 1 handoff
 
-Adversarial first-read review 1 is complete. The verdict is **FAIL** with 43 findings in `.factory/review-1.md`. No product source was changed.
+Repair closes all 43 findings from review 1. The CLI remains a Rust/clap single binary and the docs remain a Vite static site.
 
-## What was done
+## Delivered
 
-- Reviewed the live site cold at 390×844 and 1440×900.
-- Audited every landing-page and README sentence, plus headings, actions, claims, and terminology.
-- Tested `/demo`, `?demo=1`, the in-page sample flow, offline reload, network/storage behavior, and `diagnostic-packet demo` in a temporary directory.
-- Checked the public Cargo install command and GitHub releases; neither provides an installable product.
-- Read the prior handoff and verification reports and rechecked their findings in code and live behavior.
-- Checked titles, H1/main/lang, metadata, 404 behavior, deep navigation/focus, links, headers/footers, touch targets, axe results, visual identity, security headers, cache policy, and asset sizes.
+- Working `diagnostic-packet demo`: writes bundled sample files to a fresh OS temporary directory, captures, inspects, exports, and prints review-folder and packet-ZIP paths.
+- One-click `?demo=1` and `/demo/` sample paths with isolated-demo banner, Reset demo, and Start for real.
+- Testable claims, demo docs, copy audit, catalog description, metadata/assets, legal skeleton, robots/sitemap, and a designed 404 response configuration.
+- Plain-language first screen and README, plus a working Git source install path instead of nonexistent crates.io/releases instructions.
 
-## Verification run
+## Verification
 
-From clean clone `/tmp/dp-review-clean-MBde75`:
+- `npm test`: passed 54 Playwright executions (desktop + 390px mobile), 7 Rust unit tests, and 3 CLI integration tests. It includes every `@claim:*` test, Axe serious/critical checks, offline reload, privacy, mobile overflow, and static budget checks.
+- `npm run build`: passed; produced `dist/diagnostic-packet` and `dist/site/`. Built JS gzip: 2.86 KB; CSS gzip: 3.90 KB; social image: 76 KB.
+- `cargo clippy --all-targets --all-features -- -D warnings`: passed.
+- `/opt/fleet/lib/verify-url.sh http://127.0.0.1:4173/demo/ .factory/evidence/local`: passed with no console errors, `lang=en`, one H1, a main landmark, and no missing image alt text. Desktop/mobile screenshots and `verify.json` are saved there.
+- Standalone `npx @axe-core/cli` could not launch its Selenium Chrome binary in this container. The repo's `@axe-core/playwright` integration passed with zero serious/critical violations on Home, Privacy, and Terms at both viewports.
+
+## Run
 
 ```sh
 npm ci
 npm test
 npm run build
-cargo clippy --all-targets --all-features -- -D warnings
+./dist/diagnostic-packet demo
 ```
 
-All four commands passed: 7 unit tests, 3 CLI integration tests, and 18 browser tests. The live home HTML and main JS matched the local production build by SHA-256. Live offline reload and same-origin-only browser behavior passed. Axe found zero violations on Home, Privacy, and Terms at phone and desktop sizes.
+## Known gaps
 
-## Blocking work left
-
-- Publish a working install path; the hero Cargo command fails and GitHub has no releases.
-- Replace the ambiguous first screen with a job/user/action-first version.
-- Implement and document the required isolated CLI demo and `/demo` route.
-- Add `.factory/claims.json` and exactly tagged tests for every public claim.
-- Add a designed 404 instead of returning Home with HTTP 200.
-
-The complete evidence, exact rewrites, unlisted-claim ledger, and remaining medium/low findings are in `.factory/review-1.md`.
+None. Deployment and final cold live recheck follow the repair commit.

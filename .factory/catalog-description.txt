@@ -1,0 +1,1 @@
+Build a redacted bug-report packet from local development evidence.

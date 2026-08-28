@@ -1,174 +1,21 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Build safe, inspectable reproduction packets for hard-to-reproduce development failures." />
-    <meta name="theme-color" content="#f2efe6" />
-    <title>Diagnostic Packet — Reproduction evidence, ready to hand off</title>
-    <link rel="preload" href="/fonts/free-serif-bold.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#content">Skip to content</a>
-    <header class="masthead wrap">
-      <a class="wordmark" href="/" aria-label="Diagnostic Packet, home">
-        <span class="seal" aria-hidden="true">DP</span>
-        <span>Diagnostic Packet</span>
-      </a>
-      <nav aria-label="Primary navigation">
-        <a href="#workflow">How it works</a>
-        <a href="#demo">Live demo</a>
-        <a href="#manifest">Manifest</a>
-        <a href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet">Source</a>
-      </nav>
-      <p class="edition">Vol. 01 · Local edition</p>
-    </header>
-
-    <main id="content">
-      <section class="hero wrap" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span aria-hidden="true">●</span> Open packet format · No telemetry</p>
-          <h1 id="hero-title">A bug report they can replay.</h1>
-          <p class="deck">Collect the versions, hashes, redacted logs, and reproduction steps maintainers actually need—then inspect every byte before it leaves your machine.</p>
-          <div class="install-line">
-            <code id="install-command" tabindex="0">cargo install diagnostic-packet</code>
-            <button class="copy-button" data-copy="install-command" type="button">Copy command</button>
-          </div>
-          <div class="hero-actions">
-            <a class="primary-action" href="#demo">Walk through a packet <span aria-hidden="true">↓</span></a>
-            <a class="text-action" href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet">Read the source <span aria-hidden="true">↗</span></a>
-          </div>
-          <ul class="trust-line" aria-label="Product guarantees">
-            <li>Local only</li>
-            <li>Explicit consent</li>
-            <li>Single binary</li>
-          </ul>
-        </div>
-        <figure class="hero-art">
-          <picture>
-            <source media="(max-width: 720px)" srcset="/assets/packet-proof-720.webp" />
-            <img src="/assets/packet-proof.webp" width="1200" height="800" alt="An editorial arrangement of diagnostic papers with black privacy redactions and a closed archive envelope" fetchpriority="high" />
-          </picture>
-          <figcaption><span>Fig. 1</span> Scattered local evidence, assembled for review.</figcaption>
-        </figure>
-      </section>
-
-      <section class="problem-strip" aria-label="The handoff problem">
-        <div class="wrap strip-grid">
-          <p class="section-number">The missing context</p>
-          <blockquote>“Which version? Which config? Can you send the log—without the token?”</blockquote>
-          <p>Diagnostic Packet turns that follow-up loop into a manifest your project can version and every reporter can preview.</p>
-        </div>
-      </section>
-
-      <section class="workflow wrap ruled-section" id="workflow" aria-labelledby="workflow-title">
-        <div class="section-heading">
-          <p class="section-number">01 / Method</p>
-          <h2 id="workflow-title">Four deliberate steps.<br />No background surprises.</h2>
-        </div>
-        <ol class="workflow-list">
-          <li><span class="step-no">01</span><h3>Preview</h3><p>Validate the manifest and print the exact collection plan. Nothing runs.</p></li>
-          <li><span class="step-no">02</span><h3>Capture</h3><p>Run only allowlisted version checks you approve. Redact before writing.</p></li>
-          <li><span class="step-no">03</span><h3>Inspect</h3><p>Review staged HTML, JSON, logs, sizes, and SHA-256 fingerprints.</p></li>
-          <li><span class="step-no">04</span><h3>Export</h3><p>Seal the unchanged review directory into a portable, self-contained ZIP.</p></li>
-        </ol>
-      </section>
-
-      <section class="demo-section wrap ruled-section" id="demo" aria-labelledby="demo-title">
-        <div class="section-heading demo-heading">
-          <div>
-            <p class="section-number">02 / Proof desk</p>
-            <h2 id="demo-title">See what gets collected.</h2>
-          </div>
-          <p>This sample is fixed and stays in your browser. Use the arrow keys to move between stages.</p>
-        </div>
-        <div class="demo-shell">
-          <div class="demo-tabs" role="tablist" aria-label="Packet workflow stages">
-            <button role="tab" aria-selected="true" aria-controls="demo-panel" id="tab-preview" data-stage="preview" type="button"><span>01</span> Preview</button>
-            <button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-capture" data-stage="capture" tabindex="-1" type="button"><span>02</span> Capture</button>
-            <button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-inspect" data-stage="inspect" tabindex="-1" type="button"><span>03</span> Inspect</button>
-            <button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-export" data-stage="export" tabindex="-1" type="button"><span>04</span> Export</button>
-          </div>
-          <div class="demo-grid" id="demo-panel" role="tabpanel" aria-labelledby="tab-preview">
-            <div class="manifest-pane">
-              <div class="pane-label"><span>diagnostic-packet.toml</span><span class="local-badge">Local</span></div>
-              <pre tabindex="0" aria-label="Example diagnostic manifest"><code><span class="dim">format_version = 1</span>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Collect and redact local evidence for a bug report, then inspect the packet ZIP before you share it."><meta name="theme-color" content="#f2efe6">
+<meta property="og:type" content="website"><meta property="og:title" content="Diagnostic Packet — Safe bug-report packets"><meta property="og:description" content="Collect and redact local evidence before sharing a bug report."><meta property="og:image" content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"><meta property="og:url" content="https://dev-diagnostic-packet.sociobot.in/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Diagnostic Packet — Safe bug-report packets"><meta name="twitter:description" content="Collect and redact local evidence before sharing a bug report."><meta name="twitter:image" content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp">
+<link rel="canonical" href="https://dev-diagnostic-packet.sociobot.in/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="preload" href="/fonts/free-serif-bold.woff2" as="font" type="font/woff2" crossorigin><title>Diagnostic Packet — Safe bug-report packets</title><link rel="stylesheet" href="/src/style.css"></head>
+<body data-route="home"><a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead wrap"><a class="wordmark" href="/" aria-label="Diagnostic Packet, home"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><nav aria-label="Primary navigation"><a href="/demo/">Demo</a><a href="#workflow">How it works</a><a href="#manifest">Manifest</a><a href="/privacy/">Privacy</a></nav><p class="edition">Vol. 01 · Local edition</p></header><p id="route-announcement" class="sr-only" aria-live="polite"></p>
+<main id="main"><section class="hero wrap" aria-labelledby="hero-title"><div class="hero-copy"><p class="eyebrow"><span aria-hidden="true">●</span> Open packet format · No telemetry</p><h1 id="hero-title" tabindex="-1">Build a safe bug-report packet</h1><p class="deck">For developers reporting local failures, collect the logs and setup details maintainers need, then inspect every file before sharing.</p><div class="hero-actions"><a class="primary-action" href="/?demo=1#demo">Try it with sample data <span aria-hidden="true">↓</span></a><span class="action-note">Opens the bundled sample packet.</span></div><ul class="trust-line" aria-label="Product facts"><li>No telemetry</li><li>Local review folder</li><li>Free and open source</li></ul></div><figure class="hero-art"><picture><source media="(max-width: 720px)" srcset="/assets/packet-proof-720.webp"><img src="/assets/packet-proof.webp" width="1200" height="800" alt="Diagnostic papers with black privacy redactions and a closed packet envelope" fetchpriority="high"></picture><figcaption><span>Fig. 1</span> Local evidence, ready for review.</figcaption></figure></section>
+<section class="demo-section wrap ruled-section" id="demo" aria-labelledby="demo-title"><div class="section-heading demo-heading"><div><p class="section-number">01 / Sample packet</p><h2 id="demo-title">Review the bundled sample.</h2></div><p>The command-line demo creates this packet in a new temporary folder.</p></div><div class="demo-shell" data-demo-ui><div class="demo-tabs" role="tablist" aria-label="Packet workflow stages"><button role="tab" aria-selected="true" aria-controls="demo-panel" id="tab-preview" data-stage="preview" type="button"><span>01</span> Preview</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-capture" data-stage="capture" tabindex="-1" type="button"><span>02</span> Capture</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-inspect" data-stage="inspect" tabindex="-1" type="button"><span>03</span> Inspect</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-export" data-stage="export" tabindex="-1" type="button"><span>04</span> Export</button></div><div class="demo-grid" id="demo-panel" role="tabpanel" aria-labelledby="tab-preview"><div class="manifest-pane"><div class="pane-label"><span>diagnostic-packet.toml</span><span class="local-badge">Bundled</span></div><pre tabindex="0" aria-label="Bundled sample diagnostic manifest"><code><span class="dim">format_version = 1</span>
 title = <span class="string">"Editor startup failure"</span>
-
-<span class="dim">[[collectors]]</span>
-id = <span class="string">"node"</span>
-type = <span class="string">"tool-version"</span>
-command = [<span class="string">"node"</span>, <span class="string">"--version"</span>]
 
 <span class="dim">[[collectors]]</span>
 id = <span class="string">"editor-log"</span>
 type = <span class="string">"log"</span>
-path = <span class="string">".logs/editor.log"</span></code></pre>
-            </div>
-            <div class="output-pane">
-              <div class="pane-label"><span id="demo-state-label">Collection plan</span><span class="status-dot" id="demo-status">No data read</span></div>
-              <div class="terminal-output" id="demo-output" aria-live="polite" aria-atomic="true"></div>
-              <div class="demo-actions">
-                <button class="secondary-button" id="next-stage" type="button">Approve and capture</button>
-                <button class="quiet-button" id="unsafe-demo" type="button">Test an unsafe path</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="safety wrap ruled-section" aria-labelledby="safety-title">
-        <div class="section-heading">
-          <p class="section-number">03 / Redaction desk</p>
-          <h2 id="safety-title">Private by construction.</h2>
-        </div>
-        <div class="safety-grid">
-          <article><p class="redaction-sample"><span>token=</span><b aria-label="redacted value">████████████</b></p><h3>Redact before disk</h3><p>Tokens, emails, IP addresses, and home paths are replaced before evidence reaches the packet directory.</p></article>
-          <article><p class="hash-sample" aria-hidden="true">a7f3…91cc</p><h3>Hash, don’t copy</h3><p>Configuration collectors fingerprint lockfiles and settings without copying their contents.</p></article>
-          <article><p class="consent-sample" aria-hidden="true">y / N</p><h3>Consent is explicit</h3><p>Preview runs nothing. Version commands use exact safe flags and still require approval during capture.</p></article>
-        </div>
-      </section>
-
-      <section class="manifest-section wrap ruled-section" id="manifest" aria-labelledby="manifest-title">
-        <div class="section-heading">
-          <p class="section-number">04 / The manifest</p>
-          <h2 id="manifest-title">Version the questions you always ask.</h2>
-        </div>
-        <div class="manifest-copy">
-          <p>A project-owned TOML file turns maintainer knowledge into a repeatable checklist. Collector types are closed and paths cannot escape the project root.</p>
-          <dl>
-            <div><dt>system</dt><dd>OS family and architecture</dd></div>
-            <div><dt>tool-version</dt><dd>Approved version commands only</dd></div>
-            <div><dt>config-hash</dt><dd>SHA-256 without file content</dd></div>
-            <div><dt>log</dt><dd>Bounded, redacted text copy</dd></div>
-            <div><dt>environment</dt><dd>Explicit safe variable names</dd></div>
-          </dl>
-          <button class="primary-action button-reset" id="download-manifest" type="button">Download starter manifest</button>
-        </div>
-      </section>
-
-      <section class="final-cta">
-        <div class="wrap final-grid">
-          <p class="section-number">Ready for the next incident</p>
-          <h2>Send evidence.<br />Not guesswork.</h2>
-          <div>
-            <div class="install-line inverse">
-              <code id="footer-command" tabindex="0">cargo install diagnostic-packet</code>
-              <button class="copy-button" data-copy="footer-command" type="button">Copy command</button>
-            </div>
-            <p>Free, open source, and local by default.</p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer wrap">
-      <a class="wordmark" href="/"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a>
-      <p>Built for the moment a bug leaves one machine.</p>
-      <nav aria-label="Legal and project links"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet">GitHub</a></nav>
-      <p class="network-state" id="network-state" aria-live="polite">Works offline after first visit</p>
-    </footer>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
-</html>
+path = <span class="string">".logs/editor.log"</span></code></pre></div><div class="output-pane"><div class="pane-label"><span id="demo-state-label">Collection plan</span><span class="status-dot" id="demo-status">No data read</span></div><div class="terminal-output" id="demo-output" aria-live="polite" aria-atomic="true"></div><div class="demo-actions"><button class="secondary-button" id="next-stage" type="button">Capture sample</button><button class="quiet-button" id="unsafe-demo" type="button">Test an unsafe path</button></div></div></div></div></section>
+<section class="workflow wrap ruled-section" id="workflow" aria-labelledby="workflow-title"><div class="section-heading"><p class="section-number">02 / Method</p><h2 id="workflow-title">Create a packet in four steps.</h2></div><ol class="workflow-list"><li><span class="step-no">01</span><h3>Preview</h3><p>Check the TOML list. Preview reads nothing and runs no commands.</p></li><li><span class="step-no">02</span><h3>Capture</h3><p>Approve supported version checks. Redact logs before saving them.</p></li><li><span class="step-no">03</span><h3>Inspect</h3><p>Check each file, size, fingerprint, and redaction count.</p></li><li><span class="step-no">04</span><h3>Export</h3><p>Export the inspected files as a packet ZIP.</p></li></ol></section>
+<section class="safety wrap ruled-section" aria-labelledby="safety-title"><div class="section-heading"><p class="section-number">03 / Redaction desk</p><h2 id="safety-title">Redact evidence before saving.</h2></div><div class="safety-grid"><article><p class="redaction-sample"><span>token=</span><b aria-label="redacted value">████████████</b></p><h3>Replace common secrets</h3><p>Emails, IP addresses, tokens, and home paths are replaced in copied logs.</p></article><article><p class="hash-sample" aria-hidden="true">a7f3…91cc</p><h3>Record a fingerprint</h3><p>Configuration items record a SHA-256 fingerprint instead of file contents.</p></article><article><p class="consent-sample" aria-hidden="true">y / N</p><h3>Approve commands</h3><p>Only supported version commands can run, and only after approval.</p></article></div></section>
+<section class="manifest-section wrap ruled-section" id="manifest" aria-labelledby="manifest-title"><div class="section-heading"><p class="section-number">04 / The manifest</p><h2 id="manifest-title">Save a collection checklist in your project.</h2></div><div class="manifest-copy"><p>A TOML file names each collection item. It cannot use paths outside your project.</p><dl><div><dt>system</dt><dd>Operating system and architecture</dd></div><div><dt>tool-version</dt><dd>Approved version command</dd></div><div><dt>config-hash</dt><dd>SHA-256 fingerprint only</dd></div><div><dt>log</dt><dd>Bounded, redacted text copy</dd></div><div><dt>environment</dt><dd>Named safe environment values</dd></div></dl><button class="primary-action button-reset" id="download-manifest" type="button">Download starter manifest</button></div></section>
+<section class="final-cta"><div class="wrap final-grid"><p class="section-number">Run it locally</p><h2>Start with the sample.</h2><div><div class="install-line inverse"><code id="install-command" tabindex="0">cargo install --git https://github.com/B-Divyesh/sf-dev-diagnostic-packet.git</code><button class="copy-button" data-copy="install-command" type="button">Copy command</button></div><p>Then run <code>diagnostic-packet demo</code>.</p></div></div></section></main>
+<footer class="footer wrap"><a class="wordmark" href="/"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><p>Collect and redact evidence for local failures.</p><nav aria-label="Legal and project links"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet" target="_blank" rel="noopener noreferrer">GitHub <span class="sr-only">(opens GitHub)</span></a></nav><p class="network-state" id="network-state" aria-live="polite">Offline after the first visit</p><p class="build-id">Built by Param Factory<br>build 90431fa</p></footer><script type="module" src="/src/main.ts"></script></body></html>

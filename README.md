@@ -1,12 +1,14 @@
 # Diagnostic Packet
 
-Diagnostic Packet is a local-first CLI for turning a hard-to-reproduce development failure into a safe, inspectable handoff. A checked-in TOML manifest declares exactly what may be collected. The CLI previews that plan, captures redacted evidence into a local directory, lets you inspect every file, and only then exports a self-contained ZIP with readable HTML.
+Diagnostic Packet is a command-line tool that collects and redacts the evidence needed to report a local development failure.
+
+A TOML file in your project lists the data the tool may collect. The CLI previews the plan and captures redacted evidence locally. You inspect every file before exporting a packet ZIP with an HTML report.
 
 It is for developers reporting CLI, editor, workspace, or environment failures to a teammate or maintainer. It has no telemetry, network calls, background process, or remote-support access.
 
 ## Install
 
-Download the single binary for your platform from the project releases, or build it with Rust 1.85+:
+Build from this repository with Rust 1.85+:
 
 ```sh
 cargo install --path .
@@ -20,20 +22,26 @@ Create a starter manifest in the current project:
 diagnostic-packet init
 ```
 
-Review every proposed collector. Preview never collects data or runs commands:
+Try the bundled sample without touching your project:
+
+```sh
+diagnostic-packet demo
+```
+
+Review every proposed item. Preview never collects data or runs commands:
 
 ```sh
 diagnostic-packet preview --manifest diagnostic-packet.toml
 ```
 
-Capture into a review directory. Allowlisted tool-version commands require an explicit approval flag:
+Capture into a review folder. You must approve each supported version command before capture:
 
 ```sh
 diagnostic-packet capture --manifest diagnostic-packet.toml \
   --output .diagnostic-packet/review --approve-commands
 ```
 
-Inspect the exact staged files, sizes, hashes, and redaction counts:
+Inspect the review folder's files, sizes, hashes, and redaction counts:
 
 ```sh
 diagnostic-packet inspect .diagnostic-packet/review
@@ -46,7 +54,7 @@ diagnostic-packet export .diagnostic-packet/review \
   --output diagnostic-packet.zip
 ```
 
-Every command supports `--help`. `preview`, `capture`, `inspect`, and `export` support `--json` for scripts. Add `--ci` to disable prompts; capture then fails unless command execution was explicitly approved. Exit code `0` means success, `2` means invalid or unsafe input, and `1` means collection or I/O failure.
+Every command supports `--help`. `preview`, `capture`, `inspect`, and `export` support `--json` for scripts. Add `--ci` to disable prompts. Capture then fails unless command execution was approved. Exit code `0` means success. Exit code `2` means invalid or unsafe input. Exit code `1` means collection or I/O failure.
 
 ### Manifest
 
@@ -86,7 +94,7 @@ type = "environment"
 names = ["CI", "TERM", "SHELL"]
 ```
 
-Collector types are a closed allowlist: `system`, `tool-version`, `config-hash`, `log`, and `environment`. Paths must stay inside the manifest's project directory. Tool commands are argument arrays—never shell strings—and the executable must be in Diagnostic Packet's built-in version-tool allowlist. Logs are truncated to the declared limit and redacted for secrets, emails, IP addresses, and home-directory paths. Sensitive environment names are rejected.
+The tool supports only these five collection types: `system`, `tool-version`, `config-hash`, `log`, and `environment`. Paths stay inside the manifest's project directory. Tool commands are argument arrays, never shell strings. Logs stop at the declared limit and redact secrets, emails, IP addresses, and home paths. Sensitive environment names are rejected.
 
 ## Develop and verify
 
@@ -100,7 +108,7 @@ npm run build
 
 ## Privacy and packet format
 
-All work happens on the local machine. A staged packet contains `report.html`, `report.json`, `inspection.json`, and redacted evidence under `evidence/`. The ZIP contains those same files and no executable content. Review the directory before exporting and the ZIP before sharing. The site demo uses fixed sample data and stores nothing.
+All work happens on the local machine. A review folder contains `report.html`, `report.json`, `inspection.json`, and redacted evidence under `evidence/`. The packet ZIP contains those same files and no executable content. Review the folder before exporting and the ZIP before sharing. The site demo uses fixed sample data in separate browser storage.
 
 ## Project
 

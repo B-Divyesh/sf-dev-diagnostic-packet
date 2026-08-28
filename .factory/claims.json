@@ -1,0 +1,21 @@
+[
+  {"id":"local-only","claim":"The CLI makes no network requests and writes only to local files.","where":"landing, README, Privacy","test":"npm test -- --grep @claim:local-only","sandbox":"fresh temporary directory; bundled CLI demo"},
+  {"id":"manifest-plan","claim":"A TOML manifest lists the collection items before capture.","where":"landing, README","test":"npm test -- --grep @claim:manifest-plan","sandbox":"bundled CLI demo"},
+  {"id":"preview-read-only","claim":"Preview reads nothing and runs no commands.","where":"landing, README","test":"npm test -- --grep @claim:preview-read-only","sandbox":"fresh temporary directory"},
+  {"id":"command-approval","claim":"Supported version commands run only after approval.","where":"landing, README","test":"npm test -- --grep @claim:command-approval","sandbox":"fresh temporary directory"},
+  {"id":"redact-before-disk","claim":"Common secrets are redacted before copied logs reach the review folder.","where":"landing, README","test":"npm test -- --grep @claim:redact-before-disk","sandbox":"bundled CLI demo"},
+  {"id":"config-hash-only","claim":"Configuration items record a SHA-256 fingerprint instead of file contents.","where":"landing, README","test":"npm test -- --grep @claim:config-hash-only","sandbox":"bundled CLI demo"},
+  {"id":"manifest-boundaries","claim":"Only supported collection types and project-relative paths are accepted.","where":"landing, README","test":"npm test -- --grep @claim:manifest-boundaries","sandbox":"fresh temporary directory"},
+  {"id":"inspection-ledger","claim":"Inspection reports each review file, size, and SHA-256 fingerprint.","where":"landing, README","test":"npm test -- --grep @claim:inspection-ledger","sandbox":"bundled CLI demo"},
+  {"id":"inspection-required","claim":"Export works only after inspection and blocks changed review files.","where":"landing, README","test":"npm test -- --grep @claim:inspection-required","sandbox":"fresh temporary directory"},
+  {"id":"archive-contents","claim":"The packet ZIP contains the inspected report and redacted evidence, not executables.","where":"landing, README","test":"npm test -- --grep @claim:archive-contents","sandbox":"bundled CLI demo"},
+  {"id":"demo-sandbox","claim":"Demo uses sample data and separate browser storage.","where":"demo banner, Privacy","test":"npm test -- --grep @claim:demo-sandbox","sandbox":"fresh browser context at /demo"},
+  {"id":"offline-reload","claim":"The documentation and demo work offline after the first visit.","where":"footer","test":"npm test -- --grep @claim:offline-reload","sandbox":"fresh browser context, offline after service-worker activation"},
+  {"id":"free-source-install","claim":"The source install command is free and builds the documented binary.","where":"landing, README, Terms","test":"npm test -- --grep @claim:free-source-install","sandbox":"clean repository checkout"},
+  {"id":"cli-contract","claim":"CLI commands have help, JSON output where documented, CI-safe approval, and documented exit codes.","where":"README","test":"npm test -- --grep @claim:cli-contract","sandbox":"fresh temporary directory"},
+  {"id":"clean-build","claim":"npm run build creates dist/diagnostic-packet and dist/site/.","where":"README","test":"npm test -- --grep @claim:clean-build","sandbox":"clean repository checkout"},
+  {"id":"site-private","claim":"The documentation site has no analytics, cookies, accounts, or third-party scripts.","where":"Privacy","test":"npm test -- --grep @claim:site-private","sandbox":"fresh browser context"},
+  {"id":"clear-cache","claim":"Clearing site data removes the documentation cache.","where":"Privacy","test":"npm test -- --grep @claim:clear-cache","sandbox":"fresh browser context"},
+  {"id":"demo-keyboard","claim":"The demo stages work with arrow keys, Home, and End.","where":"demo","test":"npm test -- --grep @claim:demo-keyboard","sandbox":"fresh browser context at /demo"},
+  {"id":"routes-and-404","claim":"Demo, legal pages, and a designed not-found page have distinct titles and routes.","where":"site navigation","test":"npm test -- --grep @claim:routes-and-404","sandbox":"production static site"}
+]

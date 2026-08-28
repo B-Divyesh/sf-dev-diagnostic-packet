@@ -3,11 +3,11 @@ type Stage = 'preview' | 'capture' | 'inspect' | 'export';
 const stages: Stage[] = ['preview', 'capture', 'inspect', 'export'];
 const stageContent: Record<Stage, { label: string; status: string; rows: string; next: string }> = {
   preview: {
-    label: 'Collection plan', status: 'No data read', next: 'Approve and capture',
-    rows: '<p class="terminal-line ok"><b>VALID</b> 4 collectors</p><p class="ledger"><span>system</span><span>ready</span></p><p class="ledger"><span>node --version</span><span>approval</span></p><p class="ledger"><span>package-lock.json</span><span>hash only</span></p><p class="ledger"><span>.logs/editor.log</span><span>redact</span></p><p class="terminal-note">Preview completed. Nothing was collected or executed.</p>'
+    label: 'Collection plan', status: 'No data read', next: 'Capture sample',
+    rows: '<p class="terminal-line ok"><b>VALID</b> 4 collection items</p><p class="ledger"><span>system</span><span>ready</span></p><p class="ledger"><span>editor.log</span><span>redact</span></p><p class="ledger"><span>package-lock.json</span><span>hash only</span></p><p class="ledger"><span>CI, TERM</span><span>named values</span></p><p class="terminal-note">Preview completed. Nothing was collected or executed.</p>'
   },
   capture: {
-    label: 'Local capture', status: '2 values redacted', next: 'Inspect staged files',
+    label: 'Local capture', status: '4 values redacted', next: 'Inspect review files',
     rows: '<p class="terminal-line"><b>CAPTURED</b> system.txt</p><p class="terminal-line"><b>CAPTURED</b> node.txt</p><p class="terminal-line"><b>HASHED</b> package-lock.json</p><p class="terminal-line"><b>REDACTED</b> editor.log</p><pre class="log-sample">user=<mark>[REDACTED_EMAIL]</mark>\nhost=<mark>[REDACTED_IP]</mark>\nerror=extension host exited 1</pre>'
   },
   inspect: {
@@ -15,8 +15,8 @@ const stageContent: Record<Stage, { label: string; status: string; rows: string;
     rows: '<p class="ledger header"><span>File</span><span>SHA-256</span></p><p class="ledger"><span>report.html</span><span>8d4e…0ab2</span></p><p class="ledger"><span>report.json</span><span>b12f…7c31</span></p><p class="ledger"><span>system.txt</span><span>22ca…19b0</span></p><p class="ledger"><span>editor-log.txt</span><span>74e1…cd18</span></p><p class="terminal-note">Inspection marker written. Any later change blocks export.</p>'
   },
   export: {
-    label: 'Sealed packet', status: 'Ready to share', next: 'Start again',
-    rows: '<div class="packet-result" aria-label="Export complete"><span class="packet-icon" aria-hidden="true">ZIP</span><div><b>editor-startup-failure.zip</b><small>5 inspected files · 18.4 KB</small></div></div><p class="terminal-line ok"><b>EXPORTED</b> Exact inspected contents</p><p class="terminal-note">Includes readable report.html. No executable content. No upload performed.</p>'
+    label: 'Packet ZIP', status: 'Ready to share', next: 'Reset demo',
+    rows: '<div class="packet-result" aria-label="Export complete"><span class="packet-icon" aria-hidden="true">ZIP</span><div><b>editor-startup-failure.zip</b><small>5 inspected files · 18.4 KB</small></div></div><p class="terminal-line ok"><b>EXPORTED</b> Inspected files</p><p class="terminal-note">Includes readable report.html. No executable content. No upload performed.</p>'
   }
 };
 
@@ -28,6 +28,8 @@ const panel = document.querySelector<HTMLElement>('#demo-panel');
 const next = document.querySelector<HTMLButtonElement>('#next-stage');
 const unsafe = document.querySelector<HTMLButtonElement>('#unsafe-demo');
 let current: Stage = 'preview';
+const demoMode = document.body.dataset.demo === 'true' || new URLSearchParams(location.search).get('demo') === '1';
+const demoKey = 'demo:diagnostic-packet:stage';
 
 function showStage(stage: Stage, focus = false) {
   current = stage;
@@ -45,6 +47,7 @@ function showStage(stage: Stage, focus = false) {
       if (focus) tab.focus();
     }
   });
+  if (demoMode) localStorage.setItem(demoKey, stage);
 }
 
 tabs.forEach((tab, index) => {
@@ -63,7 +66,8 @@ tabs.forEach((tab, index) => {
 
 next?.addEventListener('click', () => {
   const index = stages.indexOf(current);
-  showStage(stages[(index + 1) % stages.length]);
+  if (current === 'export') resetDemo();
+  else showStage(stages[index + 1]);
 });
 
 unsafe?.addEventListener('click', () => {
@@ -102,6 +106,47 @@ document.querySelector<HTMLButtonElement>('#download-manifest')?.addEventListene
   URL.revokeObjectURL(url);
 });
 
+function resetDemo() {
+  localStorage.removeItem(demoKey);
+  showStage('preview');
+  const status = document.querySelector<HTMLElement>('#route-announcement');
+  if (status) status.textContent = 'Demo reset. The sample packet is ready.';
+}
+
+function enableDemo() {
+  if (!demoMode) return;
+  document.body.classList.add('demo-active');
+  const banner = document.createElement('aside');
+  banner.className = 'demo-banner';
+  banner.setAttribute('aria-label', 'Demo mode');
+  banner.innerHTML = '<span><b>Demo</b> — sample data, nothing is saved to your project.</span><div><button type="button" class="demo-reset">Reset demo</button><a href="/">Start for real</a></div>';
+  document.body.prepend(banner);
+  banner.querySelector<HTMLButtonElement>('.demo-reset')?.addEventListener('click', resetDemo);
+  const saved = localStorage.getItem(demoKey) as Stage | null;
+  if (saved && stages.includes(saved)) showStage(saved);
+}
+
+function enhanceInternalNavigation() {
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="/"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const announcement = document.querySelector<HTMLElement>('#route-announcement');
+      if (announcement) announcement.textContent = `Opening ${link.textContent?.trim() ?? 'page'}.`;
+    });
+  });
+  window.addEventListener('pageshow', () => {
+    const heading = document.querySelector<HTMLElement>('h1[tabindex="-1"]');
+    if (heading && performance.getEntriesByType('navigation').some((entry) => (entry as PerformanceNavigationTiming).type === 'back_forward')) heading.focus();
+  });
+  try {
+    if (document.referrer && new URL(document.referrer).origin === location.origin) {
+      const heading = document.querySelector<HTMLElement>('h1[tabindex="-1"]');
+      const announcement = document.querySelector<HTMLElement>('#route-announcement');
+      heading?.focus();
+      if (announcement && heading) announcement.textContent = heading.textContent?.trim() ?? '';
+    }
+  } catch { /* A malformed referrer must not affect navigation. */ }
+}
+
 function updateNetworkState() {
   const node = document.querySelector<HTMLElement>('#network-state');
   if (!node) return;
@@ -112,6 +157,8 @@ window.addEventListener('offline', updateNetworkState);
 updateNetworkState();
 
 showStage('preview');
+enableDemo();
+enhanceInternalNavigation();
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => undefined));
 }

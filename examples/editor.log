@@ -1,0 +1,5 @@
+user=dev@example.com
+host=10.0.0.1
+token=sample-token-for-redaction
+path=/home/dev/workspace
+error=extension host exited 1

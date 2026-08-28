@@ -33,6 +33,8 @@ enum Commands {
         #[arg(default_value = "diagnostic-packet.toml")]
         path: PathBuf,
     },
+    /// Run the bundled sample in a new temporary folder and print the packet ZIP path.
+    Demo,
     /// Validate and print the collection plan. Does not collect or run commands.
     Preview {
         #[arg(short, long, default_value = "diagnostic-packet.toml")]
@@ -97,6 +99,7 @@ fn main() {
 fn run(cli: Cli) -> Result<()> {
     match cli.command {
         Commands::Init { path } => init(path),
+        Commands::Demo => demo(),
         Commands::Preview { manifest, json } => preview(manifest, json),
         Commands::Capture {
             manifest: path,
@@ -187,6 +190,50 @@ fn run(cli: Cli) -> Result<()> {
             Ok(())
         }
     }
+}
+
+/// The CLI demo deliberately uses a fresh directory below the operating
+/// system temporary directory. It never opens a project, reads a manifest,
+/// or writes to the caller's working directory.
+fn demo() -> Result<()> {
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default()
+        .as_nanos();
+    let root = std::env::temp_dir().join(format!(
+        "diagnostic-packet-demo-{}-{nonce}",
+        std::process::id()
+    ));
+    fs::create_dir_all(root.join(".logs"))?;
+    fs::write(
+        root.join("diagnostic-packet.toml"),
+        include_str!("../examples/diagnostic-packet.toml"),
+    )?;
+    fs::write(
+        root.join("package-lock.json"),
+        include_str!("../examples/package-lock.json"),
+    )?;
+    fs::write(
+        root.join(".logs/editor.log"),
+        include_str!("../examples/editor.log"),
+    )?;
+    let manifest_path = root.join("diagnostic-packet.toml");
+    let (manifest, project_root) = manifest::load(&manifest_path)?;
+    let review = root.join("review");
+    let report = capture::capture(&manifest, &project_root, &review, false)?;
+    packet::inspect(&review)?;
+    let archive = root.join("editor-startup-failure.zip");
+    let (files, bytes) = packet::export(&review, &archive)?;
+    println!("Demo packet created from bundled sample data.");
+    println!(
+        "Redacted {} sensitive value(s); exported {files} file(s), {bytes} bytes.",
+        report.redactions.total
+    );
+    println!("Review folder: {}", review.display());
+    println!("Packet ZIP: {}", archive.display());
+    Ok(())
 }
 
 fn init(path: PathBuf) -> Result<()> {

@@ -30,6 +30,15 @@ test('demo works by pointer and keyboard', async ({ page }) => {
   await expect(page.getByRole('alert')).toContainText('leaves the project directory');
 });
 
+test('internal navigation moves focus to the destination heading', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Privacy' }).first().click();
+  await expect(page).toHaveURL(/\/privacy\//);
+  await expect(page.locator('h1')).toBeFocused();
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+});
+
 test('mobile layout does not overflow', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/');
@@ -38,7 +47,7 @@ test('mobile layout does not overflow', async ({ page }) => {
   await expect(page.locator('img[alt]')).toBeVisible();
 });
 
-test('production shell reloads offline after service worker activation', async ({ browser }) => {
+test('@claim:offline-reload production shell and demo reload offline after service worker activation', async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
   const consoleErrors: string[] = [];
@@ -46,7 +55,7 @@ test('production shell reloads offline after service worker activation', async (
     if (message.type() === 'error') consoleErrors.push(message.text());
   });
 
-  await page.goto('/');
+  await page.goto('/demo/');
   await page.evaluate(async () => { await navigator.serviceWorker.ready; });
   await page.reload();
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
@@ -61,7 +70,7 @@ test('production shell reloads offline after service worker activation', async (
 
   await context.setOffline(true);
   await page.reload();
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('A bug report they can replay.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Run a sample packet.');
   await expect(page.locator('#demo-output')).toContainText('Preview completed');
   expect(consoleErrors).toEqual([]);
   await context.close();

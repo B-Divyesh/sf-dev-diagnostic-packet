@@ -12,9 +12,10 @@ id = "system"
 type = "system"
 
 [[collectors]]
-id = "node"
-type = "tool-version"
-command = ["node", "--version"]
+id = "editor-log"
+type = "log"
+path = ".logs/editor.log"
+max_bytes = 200000
 
 [[collectors]]
 id = "lockfile"
