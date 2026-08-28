@@ -1,12 +1,13 @@
 {
   "name": "dev-diagnostic-packet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts",
-    "build:site": "vite build --config vite.config.ts",
+    "build:site": "vite build --config vite.config.ts && node scripts/build-service-worker.mjs",
     "build": "node scripts/build.mjs",
+    "preview": "vite preview --config vite.config.ts",
     "test:site": "playwright test",
     "test": "node scripts/test.mjs"
   },

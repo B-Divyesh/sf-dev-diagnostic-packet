@@ -96,7 +96,7 @@ npm test
 npm run build
 ```
 
-`npm run build` creates the release binary in `dist/` and the deployable static documentation site in `dist/site/`. Run the site locally with `npm run dev`. Create the ready-to-publish crate with `cargo package --allow-dirty`; registry credentials and publishing remain with the factory.
+`npm run build` creates the release binary in `dist/` and the deployable static documentation site in `dist/site/`. Run the site locally with `npm run dev`. Create the ready-to-publish crate with `cargo package --locked`; registry credentials and publishing remain with the factory.
 
 ## Privacy and packet format
 

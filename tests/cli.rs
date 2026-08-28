@@ -79,6 +79,61 @@ fn documented_workflow_builds_an_inspected_archive() {
 }
 
 #[test]
+fn default_command_sequence_builds_an_inspected_archive() {
+    let dir = tempdir().unwrap();
+    let run = |args: &[&str]| {
+        Command::new(binary())
+            .current_dir(dir.path())
+            .args(args)
+            .output()
+            .unwrap()
+    };
+
+    let init = run(&["init"]);
+    assert!(
+        init.status.success(),
+        "{}",
+        String::from_utf8_lossy(&init.stderr)
+    );
+    assert!(dir.path().join("diagnostic-packet.toml").is_file());
+
+    let preview = run(&["preview", "--json"]);
+    assert!(
+        preview.status.success(),
+        "{}",
+        String::from_utf8_lossy(&preview.stderr)
+    );
+    assert!(String::from_utf8_lossy(&preview.stdout).contains("requires_command_approval"));
+
+    let capture = run(&["--ci", "capture", "--approve-commands"]);
+    assert!(
+        capture.status.success(),
+        "{}",
+        String::from_utf8_lossy(&capture.stderr)
+    );
+    assert!(
+        dir.path()
+            .join(".diagnostic-packet/review/report.json")
+            .is_file()
+    );
+
+    let inspect = run(&["inspect"]);
+    assert!(
+        inspect.status.success(),
+        "{}",
+        String::from_utf8_lossy(&inspect.stderr)
+    );
+
+    let export = run(&["export"]);
+    assert!(
+        export.status.success(),
+        "{}",
+        String::from_utf8_lossy(&export.stderr)
+    );
+    assert!(dir.path().join("diagnostic-packet.zip").is_file());
+}
+
+#[test]
 fn init_never_overwrites_a_manifest() {
     let dir = tempdir().unwrap();
     let manifest = dir.path().join("diagnostic-packet.toml");

@@ -106,10 +106,15 @@ pub fn load(path: &Path) -> Result<(Manifest, PathBuf)> {
     let text = fs::read_to_string(path)?;
     let manifest: Manifest = toml::from_str(&text)
         .map_err(|error| PacketError::Invalid(format!("{}: {error}", path.display())))?;
-    let root = path
+    // `Path::parent()` returns an empty path for a bare filename such as the
+    // documented `diagnostic-packet.toml`. Canonicalizing that empty path
+    // fails even though the manifest is in the current directory. Treat it
+    // exactly like a missing parent.
+    let parent = path
         .parent()
-        .unwrap_or_else(|| Path::new("."))
-        .canonicalize()?;
+        .filter(|parent| !parent.as_os_str().is_empty())
+        .unwrap_or_else(|| Path::new("."));
+    let root = parent.canonicalize()?;
     validate(&manifest)?;
     Ok((manifest, root))
 }

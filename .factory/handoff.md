@@ -1,72 +1,85 @@
-# Diagnostic Packet v0.1.0 — verification handoff: **FAIL**
+# Diagnostic Packet v0.1.1 — repair handoff: **PASS (local release gates)**
 
-Independent verification of candidate `29aeb8e321c7bc7179a9c48a08a258d2f80f3343`
-on 2026-08-27 UTC is **FAIL**. The detailed, evidence-backed record is in
-[`verification-1.md`](verification-1.md).
+This repair addresses every release-blocking finding in independent verification
+of candidate `29aeb8e321c7bc7179a9c48a08a258d2f80f3343` (report recorded in
+[`verification-1.md`](verification-1.md)). The artifact remains a Rust single-
+binary CLI with the Vite static documentation site at `dist/site/`.
 
-The candidate installs, packages, tests, lints, and builds successfully; its
-live static files exactly match <https://dev-diagnostic-packet.sociobot.in/>.
-It must not be accepted, however, because the literal README/default CLI flow
-`init` then `preview` fails with an I/O error, and the PWA fails offline reload
-after an initial online visit. No product code was modified during verification.
+## Repairs
 
-## Required next steps
-
-1. Fix bare default manifest-path handling and add an integration test for the
-   literal documented sequence.
-2. Fix service-worker shell caching/update behavior and add an offline-reload
-   browser test.
-3. Configure immutable caching for content-hashed assets and add CSP/
-   Permissions-Policy response headers.
-4. Re-run the clean verification steps in `verification-1.md`, including a
-   clean-consumer package install, before changing this handoff to PASS.
-
----
-
-# Builder handoff retained for context
-
-## What shipped
-
-- A Rust 2024 single-binary CLI with `init`, `preview`, `capture`, `inspect`, and `export` commands plus useful `--help`, stable exit codes, `--json` scripting output, and non-interactive `--ci` behavior.
-- A versioned TOML manifest with a closed collector allowlist: system facts, approved tool versions, configuration hashes, bounded redacted logs, and explicitly named safe environment variables.
-- Guardrails for manifest path traversal and symlink escape, sensitive environment names, unsupported collector fields, duplicate IDs, command timeouts, unsafe tool arguments, existing outputs, and changed-after-inspection packets.
-- Redaction for common token/secret assignments (including quoted JSON), known token formats, bearer tokens, email addresses, valid IPv4 addresses, and Unix/Windows home paths. Capture writes to a temporary sibling directory before an atomic rename.
-- Self-contained `report.html` and `report.json`, evidence hashes, a signed-off `inspection.json`, and deterministic ZIP export with no executable content.
-- A responsive Vite documentation site in the product-specific “incident broadsheet” system, including a keyboard-operable four-stage demo, unsafe-manifest error state, offline state, downloadable starter manifest, privacy and terms pages, and an offline service worker.
-- Original generated hero artwork plus 92 KB desktop and 39 KB mobile WebP derivatives. Prompt, deployment, and source are retained in `.factory/assets/`; provenance and visual tokens are in `.factory/design.md`.
+1. **Default CLI workflow:** `manifest::load` now treats the empty parent of a
+   bare path such as `diagnostic-packet.toml` as `.` before canonicalizing.
+   The new CLI integration test runs the exact default sequence from an
+   isolated current directory: `init`, `preview --json`, `--ci capture
+   --approve-commands`, `inspect`, and `export`.
+2. **Offline documentation reload:** the Vite build now generates `sw.js`
+   after every production build. It fingerprints and precaches the generated
+   HTML routes, hashed JS/CSS, fonts, and local artwork before `skipWaiting`.
+   Same-origin cache reads use `ignoreVary` so preloaded fonts are also served
+   offline. The browser regression test activates the worker, reloads online,
+   takes the context offline, reloads again, and asserts initialized demo
+   content with no console errors.
+3. **Response policy and caching:** `site/public/staticwebapp.config.json`
+   configures Azure Static Web Apps with a same-origin CSP, restrictive
+   Permissions-Policy, `nosniff`, referrer policy, no-store HTML/worker
+   responses, and one-year immutable caching for `/assets/*` and `/fonts/*`.
+   Build tests assert this configuration and that the generated worker includes
+   each emitted JS and CSS asset.
 
 ## Run and verify
 
 ```sh
-npm install
+npm ci
 npm test
+cargo clippy --all-targets --all-features -- -D warnings
 npm run build
-```
-
-The exact production build command is `npm run build`. It produces:
-
-- `dist/diagnostic-packet` — the host-platform release binary (4.5 MB in this worker).
-- `dist/site/index.html` — the static deploy root, with `/privacy/` and `/terms/`.
-
-Create the registry-ready package with:
-
-```sh
 cargo package --locked
 ```
 
-The verified crate contains 16 source/documentation/example files and is about 22 KB compressed. Publishing was intentionally not performed.
+For a dirty development tree, use `cargo package --allow-dirty --locked`; the
+release/CI command above stays `cargo package --locked`.
 
-## Builder-reported verification (superseded by the FAIL above)
+`npm run build` produces `dist/diagnostic-packet` and `dist/site/`. The
+documentation build generates a versioned `dist/site/sw.js`; do not edit that
+file by hand. The registry-ready archive is `target/package/diagnostic-
+packet-0.1.1.crate`; publishing is intentionally not performed.
 
-- `npm test`: pass — 7 Rust unit tests, 2 end-to-end CLI tests, and 12 Playwright tests across desktop Chromium and a 390 × 844 mobile Chromium viewport.
-- Playwright + axe: no serious or critical accessibility violations on `/`, `/privacy/`, or `/terms/`; no browser console errors; one `<h1>`, `lang`, main landmark, alt text, keyboard demo path, visible focus, and mobile overflow are asserted.
-- `npm audit --audit-level=high`: 0 vulnerabilities.
-- `npm run build`: pass; JS 5.56 KB, CSS 13.48 KB, fonts 115.1 KB total, hero image 92 KB desktop / 39 KB mobile.
-- Lighthouse 12.8.2 mobile, local production build: performance 99, accessibility 100, best practices 96, SEO 92; LCP 2.0 s, FCP 1.5 s, CLS 0, total blocking time 0 ms. INP has no lab value for a non-interacted page; 0 ms TBT and the 5.56 KB event-driven script are the available proxy.
-- Manual visual inspection at 1440 × 1000 and 390 × 844 confirmed the editorial hierarchy, responsive stacking, and readable demo layout.
+## Exact local evidence (2026-08-28 UTC)
 
-## Known gaps and next steps
+- `npm ci`: pass; 23 packages audited, 0 vulnerabilities.
+- `npm test`: pass — cargo format check, 7 Rust unit tests, 3 CLI integration
+  tests, production site build, and 18 Playwright checks across Desktop
+  Chromium and 390 × 844 mobile Chromium. The suite includes axe checks with
+  no serious/critical findings on `/`, `/privacy/`, and `/terms/`; keyboard
+  tab/arrow operation, no mobile overflow, asset budgets, production shell
+  precache, response-policy config, and offline reload are covered.
+- `cargo clippy --all-targets --all-features -- -D warnings`: pass.
+- `npm run build`: pass. Emitted JS is 5.56 KB and CSS 13.48 KB; the generated
+  worker precaches 11 local shell files. The release binary is 4.5 MB on this
+  Linux worker.
+- Local Lighthouse against the production preview: performance **99**,
+  accessibility **100**, best practices **96**, SEO **92**; LCP **1998 ms**,
+  CLS **0**, and total blocking time **0 ms**.
+- `cargo package --allow-dirty --locked`: pass — 16 files, 21.2 KiB compressed.
+  The archive was unpacked into a fresh temporary consumer, installed with
+  `cargo install --path … --root … --locked`, and its `--help` was checked.
+  In a new empty current directory, the installed binary completed the literal
+  default flow and exported a ZIP containing only `report.html`, `report.json`,
+  `inspection.json`, `evidence/git.txt`, and `evidence/system.txt`.
 
-- The checked-in build creates a binary for the current host. Release automation should cross-compile macOS, Windows, and Linux artifacts and attach checksums; no registry or release credentials are used here.
-- Automated redaction cannot recognize every project-specific secret. The CLI states this clearly and structurally requires inspection before export; future manifests could add named custom redaction patterns with the same preview guarantees.
-- The packet format begins at version 1 but has no independent JSON Schema yet. Publish a schema once a second consumer exists, then add compatibility fixtures across implementations.
+## Deployment and live verification
+
+The static deployment and live URL evidence are added immediately after the
+release upload. Expected live assertions are HTTPS 200, the generated shell
+loading after an offline reload, immutable asset/font cache headers, CSP,
+Permissions-Policy, and no third-party network requests.
+
+## Known gaps / next steps
+
+- This worker produces the host Linux binary. Release automation should
+  cross-compile and sign/checksum macOS, Windows, and Linux artifacts.
+- Automated redaction cannot recognize every project-specific secret. The CLI
+  still requires local inspection before export; named custom redaction rules
+  can be considered only with the same preview guarantees.
+- The packet format starts at version 1 and has no independent JSON Schema;
+  publish one when a second consumer exists.
