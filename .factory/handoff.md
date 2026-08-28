@@ -1,30 +1,6 @@
-# Diagnostic Packet v0.1.1 — repair handoff: **PASS**
+# Diagnostic Packet v0.1.1 — verifier handoff: **PASS**
 
-This repair addresses every release-blocking finding in independent verification
-of candidate `29aeb8e321c7bc7179a9c48a08a258d2f80f3343` (report recorded in
-[`verification-1.md`](verification-1.md)). The artifact remains a Rust single-
-binary CLI with the Vite static documentation site at `dist/site/`.
-
-## Repairs
-
-1. **Default CLI workflow:** `manifest::load` now treats the empty parent of a
-   bare path such as `diagnostic-packet.toml` as `.` before canonicalizing.
-   The new CLI integration test runs the exact default sequence from an
-   isolated current directory: `init`, `preview --json`, `--ci capture
-   --approve-commands`, `inspect`, and `export`.
-2. **Offline documentation reload:** the Vite build now generates `sw.js`
-   after every production build. It fingerprints and precaches the generated
-   HTML routes, hashed JS/CSS, fonts, and local artwork before `skipWaiting`.
-   Same-origin cache reads use `ignoreVary` so preloaded fonts are also served
-   offline. The browser regression test activates the worker, reloads online,
-   takes the context offline, reloads again, and asserts initialized demo
-   content with no console errors.
-3. **Response policy and caching:** `site/public/staticwebapp.config.json`
-   configures Azure Static Web Apps with a same-origin CSP, restrictive
-   Permissions-Policy, `nosniff`, referrer policy, no-store HTML/worker
-   responses, and one-year immutable caching for `/assets/*` and `/fonts/*`.
-   Build tests assert this configuration and that the generated worker includes
-   each emitted JS and CSS asset.
+Independent verification of candidate `b2f2a15719fa059b3a8f39a29ac39b4113b6e824` passed on 2026-08-28 UTC. This is a Rust single-binary CLI with the Vite documentation PWA at `dist/site/`. Full evidence is in [verification-2.md](verification-2.md).
 
 ## Run and verify
 
@@ -36,64 +12,15 @@ npm run build
 cargo package --locked
 ```
 
-For a dirty development tree, use `cargo package --allow-dirty --locked`; the
-release/CI command above stays `cargo package --locked`.
+`npm run build` emits `dist/diagnostic-packet` and `dist/site/`; the worker is generated with the production site. `cargo package --locked` emits the ready-to-publish crate at `target/package/diagnostic-packet-0.1.1.crate`. Publishing is intentionally not performed from this repo.
 
-`npm run build` produces `dist/diagnostic-packet` and `dist/site/`. The
-documentation build generates a versioned `dist/site/sw.js`; do not edit that
-file by hand. The registry-ready archive is `target/package/diagnostic-
-packet-0.1.1.crate`; publishing is intentionally not performed.
+## Verified evidence
 
-## Exact local evidence (2026-08-28 UTC)
+- Clean install, complete test suite (7 unit, 3 CLI integration, 18 browser checks), clippy, exact production build, and package verification all pass.
+- A packed clean consumer completed the literal default CLI flow. A custom packet redacted token, email, IP, and home path before disk, hash-only captured config, and blocked unapproved commands, traversal, invalid limits/sensitive environment names, uninspected export, modified packets, and archive overwrite.
+- The deployed URL matches the candidate by SHA-256 for checked HTML, PWA, JS/CSS, and imagery. Live desktop and 390px mobile have no console/page errors or serious/critical axe issues, keyboard/focus and reduced motion work, the PWA reloads offline after activation, and automatic requests remain same-origin.
+- Response and budget checks pass: 5.6 KB JS, 13.5 KB CSS, 116.1 KB WOFF2; immutable hashed assets; CSP, Permissions-Policy, nosniff, Referrer-Policy, and HSTS. Local mobile Lighthouse was 99 performance and 100 accessibility.
 
-- `npm ci`: pass; 23 packages audited, 0 vulnerabilities.
-- `npm test`: pass — cargo format check, 7 Rust unit tests, 3 CLI integration
-  tests, production site build, and 18 Playwright checks across Desktop
-  Chromium and 390 × 844 mobile Chromium. The suite includes axe checks with
-  no serious/critical findings on `/`, `/privacy/`, and `/terms/`; keyboard
-  tab/arrow operation, no mobile overflow, asset budgets, production shell
-  precache, response-policy config, and offline reload are covered.
-- `cargo clippy --all-targets --all-features -- -D warnings`: pass.
-- `npm run build`: pass. Emitted JS is 5.56 KB and CSS 13.48 KB; the generated
-  worker precaches 11 local shell files. The release binary is 4.5 MB on this
-  Linux worker.
-- Local Lighthouse against the production preview: performance **99**,
-  accessibility **100**, best practices **96**, SEO **92**; LCP **1998 ms**,
-  CLS **0**, and total blocking time **0 ms**.
-- `cargo package --allow-dirty --locked`: pass — 16 files, 21.2 KiB compressed.
-  The archive was unpacked into a fresh temporary consumer, installed with
-  `cargo install --path … --root … --locked`, and its `--help` was checked.
-  In a new empty current directory, the installed binary completed the literal
-  default flow and exported a ZIP containing only `report.html`, `report.json`,
-  `inspection.json`, `evidence/git.txt`, and `evidence/system.txt`.
+## Defects and next steps
 
-## Deployment and live verification
-
-- Deployed commit `f703d8e` through the static work-order configuration on
-  2026-08-28 UTC. Azure Static Web Apps deployment
-  `4d030ebe-8fbb-4444-b55f-3336774d99b2` completed successfully; the custom
-  domain returned HTTPS 200 immediately after upload.
-- `/opt/fleet/lib/verify-url.sh https://dev-diagnostic-packet.sociobot.in/ …`:
-  pass — title, `lang=en`, one `<h1>`, main landmark, image alt text, labeled
-  controls, and zero browser errors; desktop load time was 1066 ms.
-- Live response headers: HTML and `sw.js` return `no-cache, no-store,
-  must-revalidate`; hashed JS and self-hosted fonts return `public,
-  max-age=31536000, immutable`. Every checked response includes the deployed
-  same-origin Content-Security-Policy, Permissions-Policy, `nosniff`, and
-  strict-origin referrer policy.
-- Live mobile Chromium (390 × 844): after worker activation and one online
-  reload, an offline reload retained the headline and initialized Preview demo;
-  `navigator.onLine` was false and there were zero console/page errors. The
-  only requested host was `dev-diagnostic-packet.sociobot.in`.
-- Identity check: SHA-256 matched `dist/site` for live `/`, `/privacy/`,
-  `/terms/`, emitted JS/CSS, and `sw.js`.
-
-## Known gaps / next steps
-
-- This worker produces the host Linux binary. Release automation should
-  cross-compile and sign/checksum macOS, Windows, and Linux artifacts.
-- Automated redaction cannot recognize every project-specific secret. The CLI
-  still requires local inspection before export; named custom redaction rules
-  can be considered only with the same preview guarantees.
-- The packet format starts at version 1 and has no independent JSON Schema;
-  publish one when a second consumer exists.
+**PASS — no critical, high, medium, or low defects observed.** Automated redaction cannot identify every project-specific secret, so retain the required inspection step. Future release automation should cross-compile and sign macOS/Windows/Linux artifacts; this verification exercised the Linux artifact only.
