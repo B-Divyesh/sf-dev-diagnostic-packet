@@ -122,7 +122,9 @@ test('@claim:site-private loads no third-party requests or cookies', async ({ pa
   const origins: string[] = [];
   page.on('request', (request) => origins.push(new URL(request.url()).origin));
   await page.goto('/privacy/');
-  expect(new Set(origins)).toEqual(new Set(['http://127.0.0.1:4173']));
+  await page.waitForLoadState('networkidle');
+  expect(origins.length).toBeGreaterThan(0);
+  expect(origins.every((origin) => origin === 'http://127.0.0.1:4173')).toBeTruthy();
   expect(await page.context().cookies()).toEqual([]);
 });
 

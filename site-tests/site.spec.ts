@@ -98,6 +98,7 @@ test('generated service worker precaches the production shell', () => {
 
 test('static deployment configuration protects response policy and hashed assets', () => {
   const config = JSON.parse(readFileSync('dist/site/staticwebapp.config.json', 'utf8'));
+  expect(config.responseOverrides['404'].statusCode).toBe(404);
   expect(config.globalHeaders['Content-Security-Policy']).toContain("default-src 'self'");
   expect(config.globalHeaders['Permissions-Policy']).toContain('camera=()');
   expect(config.globalHeaders['X-Content-Type-Options']).toBe('nosniff');
