@@ -1,6 +1,23 @@
-# Diagnostic Packet — polish 2 handoff
+# Diagnostic Packet — review 3 handoff
 
 ## Outcome
+
+Independent adversarial review 3 passed with **zero findings**. The reviewer did not modify product code. The committed review is `.factory/review-3.md`.
+
+## Review 3 verification
+
+- Opened the deployed site cold at 390×844 and 1440×900. The first screen clearly states the job, intended developer, and one-click sample action.
+- Exercised `/?demo=1#demo` and `/demo/`: banner, realistic sample, keyboard flow, Reset, and Install-the-CLI exit worked. Demo storage was isolated to `demo:diagnostic-packet:*`; a deliberately seeded real key survived reset and exit.
+- Ran the real `diagnostic-packet demo` from a sentinel launch folder with a dedicated `TMPDIR`. It wrote the review folder and ZIP only below a fresh temporary directory.
+- Activated the deployed service worker, went offline, and reloaded `/demo/`; the H1 and populated preview remained available without console errors.
+- Crawled the public/internal links and repository links: all normal targets returned 200. An unknown live route returned a designed HTTP 404. Home, Demo, Privacy, Terms, and 404 each had the expected title, metadata, icon, canonical, one H1, and main landmark. Forward and Back navigation focused the destination H1.
+- Created a clean clone at `/tmp/dp-review3-clean-yMwv6i`, ran `npm ci`, then ran all 25 exact commands listed in `.factory/claims.json` separately. All passed; the final Playwright receipt was `{"status":"passed","failedTests":[]}`. Source inspection confirmed exactly one `@claim:` test tag per claim.
+
+## What remains
+
+No acceptance gap or review finding remains. Maintain the claim registry and clean-sandbox tests for every future user-visible claim.
+
+## Previous polish 2 handoff
 
 All cumulative findings in `.factory/review-1.md` and `.factory/review-2.md` are closed. The repaired CLI/static-site candidate is committed at `407780847cc29e28930a6e1d8f5e7e6bd8a4cf4f`, pushed to `main`, and deployed to <https://dev-diagnostic-packet.sociobot.in>.
 
