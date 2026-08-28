@@ -1,1 +1,122 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="How Diagnostic Packet handles CLI and documentation-site data."><meta name="theme-color" content="#f2efe6"><meta property="og:type" content="website"><meta property="og:title" content="Privacy — Diagnostic Packet"><meta property="og:description" content="How Diagnostic Packet handles data."><meta property="og:image" content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://dev-diagnostic-packet.sociobot.in/privacy/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><title>Privacy — Diagnostic Packet</title><link rel="stylesheet" href="/src/style.css"></head><body data-route="privacy"><a class="skip-link" href="#main">Skip to content</a><header class="masthead wrap"><a class="wordmark" href="/"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><nav aria-label="Primary navigation"><a href="/demo/">Demo</a><a href="/#workflow">How it works</a><a href="/#manifest">Manifest</a><a href="/privacy/" aria-current="page">Privacy</a></nav><p class="edition">Public notice</p></header><p id="route-announcement" class="sr-only" aria-live="polite"></p><main class="legal-main wrap" id="main"><header class="legal-header"><p class="section-number">Public notice · 2026-08-28</p><h1 tabindex="-1">Privacy, in plain language.</h1></header><div class="legal-content"><p><strong>Diagnostic Packet does not collect, transmit, or sell personal data.</strong> The CLI has no telemetry and makes no network requests. Collection starts only when you run a command.</p><h2>CLI data</h2><p>Your manifest and captured evidence remain on your machine. Redaction happens before log evidence is written to the review folder. You decide whether and how to share the packet ZIP. Review it first: automatic redaction cannot recognize every project-specific secret.</p><h2>Website data</h2><p>The documentation site has no analytics, advertising, cookies, accounts, or third-party scripts. Its demo uses fixed sample data in separate browser storage. A service worker may cache public files for offline use. Clearing site data removes that cache.</p><h2>Contact</h2><p>Report privacy or security concerns in the project issue tracker.</p><a class="legal-contact" href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet/issues" target="_blank" rel="noopener noreferrer">Open the public issue tracker <span class="sr-only">(opens GitHub)</span></a><p>Do not include secrets or private packet contents in an issue.</p></div></main><footer class="footer wrap"><a class="wordmark" href="/"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><p>Collect and redact evidence for local failures.</p><nav aria-label="Legal and project links"><a href="/privacy/" aria-current="page">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet" target="_blank" rel="noopener noreferrer">GitHub <span class="sr-only">(opens GitHub)</span></a></nav><p class="network-state" id="network-state" aria-live="polite">Offline after the first visit</p><p class="build-id">Built by Param Factory<br>build 90431fa</p></footer><script type="module" src="/src/main.ts"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="How Diagnostic Packet handles CLI and documentation-site data."
+    />
+    <meta name="theme-color" content="#f2efe6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Privacy — Diagnostic Packet" />
+    <meta
+      property="og:description"
+      content="How Diagnostic Packet handles data."
+    />
+    <meta
+      property="og:image"
+      content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://dev-diagnostic-packet.sociobot.in/privacy/"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Privacy — Diagnostic Packet" />
+    <meta
+      name="twitter:description"
+      content="How Diagnostic Packet handles data."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"
+    />
+    <link
+      rel="canonical"
+      href="https://dev-diagnostic-packet.sociobot.in/privacy/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>Privacy — Diagnostic Packet</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body data-route="privacy">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="masthead wrap">
+      <a class="wordmark" href="/"
+        ><span class="seal" aria-hidden="true">DP</span
+        ><span>Diagnostic Packet</span></a
+      >
+      <nav aria-label="Primary navigation">
+        <a href="/demo/">Demo</a><a href="/#workflow">How it works</a
+        ><a href="/#manifest">Manifest</a
+        ><a href="/privacy/" aria-current="page">Privacy</a>
+      </nav>
+      <p class="edition">Public notice</p>
+    </header>
+    <p id="route-announcement" class="sr-only" aria-live="polite"></p>
+    <main class="legal-main wrap" id="main">
+      <header class="legal-header">
+        <p class="section-number">Public notice · 2026-08-28</p>
+        <h1 tabindex="-1">Privacy, in plain language.</h1>
+      </header>
+      <div class="legal-content">
+        <p>
+          <strong
+            >The documentation site does not collect personal data.</strong
+          >
+          The CLI has no telemetry and makes no network requests. Collection
+          starts only when you run a command.
+        </p>
+        <h2>CLI data</h2>
+        <p>
+          Your manifest and captured evidence remain on your machine. Redaction
+          happens before log evidence is written to the review folder. You
+          decide whether and how to share the packet ZIP. Review it first:
+          automatic redaction cannot recognize every project-specific secret.
+        </p>
+        <h2>Website data</h2>
+        <p>
+          The documentation site has no analytics, advertising, cookies,
+          accounts, or third-party scripts. Its demo uses fixed sample data in
+          separate browser storage. A service worker may cache public files for
+          offline use. Clearing site data removes that cache.
+        </p>
+        <h2>Contact</h2>
+        <p>Report privacy or security concerns in the project issue tracker.</p>
+        <a
+          class="legal-contact"
+          href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Open the public issue tracker
+          <span class="sr-only">(opens GitHub)</span></a
+        >
+        <p>Do not include secrets or private packet contents in an issue.</p>
+      </div>
+    </main>
+    <footer class="footer wrap">
+      <a class="wordmark" href="/"
+        ><span class="seal" aria-hidden="true">DP</span
+        ><span>Diagnostic Packet</span></a
+      >
+      <p>Collect and redact evidence for local failures.</p>
+      <nav aria-label="Legal and project links">
+        <a href="/privacy/" aria-current="page">Privacy</a
+        ><a href="/terms/">Terms</a
+        ><a
+          href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub <span class="sr-only">(opens GitHub)</span></a
+        >
+      </nav>
+      <p class="network-state" id="network-state" aria-live="polite">
+        Offline after the first visit
+      </p>
+      <p class="build-id">Built by Param Factory<br />v0.1.1 · polish 2</p>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

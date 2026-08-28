@@ -2,16 +2,16 @@
 
 Diagnostic Packet is a command-line tool that collects and redacts the evidence needed to report a local development failure.
 
-A TOML file in your project lists the data the tool may collect. The CLI previews the plan and captures redacted evidence locally. You inspect every file before exporting a packet ZIP with an HTML report.
+The `diagnostic-packet.toml` text file in your project lists the data the tool may collect. The CLI previews the plan and captures redacted evidence locally. You inspect every file before exporting a packet ZIP with an HTML report.
 
-It is for developers reporting CLI, editor, workspace, or environment failures to a teammate or maintainer. It has no telemetry, network calls, background process, or remote-support access.
+It is for developers reporting CLI, editor, workspace, or environment failures to a teammate or maintainer. The CLI has no telemetry or network calls.
 
 ## Install
 
-Build from this repository with Rust 1.85+:
+Install from the public source repository:
 
 ```sh
-cargo install --path .
+cargo install --git https://github.com/B-Divyesh/sf-dev-diagnostic-packet.git
 ```
 
 ## Usage
@@ -22,13 +22,13 @@ Create a starter manifest in the current project:
 diagnostic-packet init
 ```
 
-Try the bundled sample without touching your project:
+Try the bundled sample. It writes only to a new operating-system temporary folder:
 
 ```sh
 diagnostic-packet demo
 ```
 
-Review every proposed item. Preview never collects data or runs commands:
+Review every proposed item. Preview reads only the checklist and runs no commands:
 
 ```sh
 diagnostic-packet preview --manifest diagnostic-packet.toml
@@ -41,7 +41,7 @@ diagnostic-packet capture --manifest diagnostic-packet.toml \
   --output .diagnostic-packet/review --approve-commands
 ```
 
-Inspect the review folder's files, sizes, hashes, and redaction counts:
+Inspect the review folder's files, sizes, SHA-256 hashes, and redaction counts:
 
 ```sh
 diagnostic-packet inspect .diagnostic-packet/review
@@ -54,7 +54,7 @@ diagnostic-packet export .diagnostic-packet/review \
   --output diagnostic-packet.zip
 ```
 
-Every command supports `--help`. `preview`, `capture`, `inspect`, and `export` support `--json` for scripts. Add `--ci` to disable prompts. Capture then fails unless command execution was approved. Exit code `0` means success. Exit code `2` means invalid or unsafe input. Exit code `1` means collection or I/O failure.
+Every command supports `--help`. `preview`, `capture`, `inspect`, and `export` support `--json` for scripts. For automated builds, add `--ci` to disable prompts. Capture then fails unless command execution was approved. Exit code `0` means success. Exit code `2` means invalid or unsafe input. Exit code `1` means a collection or file read/write failure.
 
 ### Manifest
 
@@ -104,7 +104,7 @@ npm test
 npm run build
 ```
 
-`npm run build` creates the release binary in `dist/` and the deployable static documentation site in `dist/site/`. Run the site locally with `npm run dev`. Create the ready-to-publish crate with `cargo package --locked`; registry credentials and publishing remain with the factory.
+`npm run build` creates the release binary in `dist/` and the deployable static documentation site in `dist/site/`. Run the site locally with `npm run dev`. Check the Rust package with `cargo package --locked`; registry credentials and publishing remain with the factory.
 
 ## Privacy and packet format
 

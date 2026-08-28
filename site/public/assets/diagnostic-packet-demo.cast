@@ -1,0 +1,6 @@
+{"version":2,"width":88,"height":10,"timestamp":1787920328,"env":{"SHELL":"/bin/sh","TERM":"xterm-256color"}}
+[0.000000,"o","$ diagnostic-packet demo\r\n"]
+[0.180000,"o","Demo packet created from bundled sample data.\r\n"]
+[0.260000,"o","Redacted 4 sensitive value(s); exported 6 file(s), 3266 bytes.\r\n"]
+[0.340000,"o","Review folder: /tmp/diagnostic-packet-demo-1574-1787920328483842277/review\r\n"]
+[0.420000,"o","Packet ZIP: /tmp/diagnostic-packet-demo-1574-1787920328483842277/editor-startup-failure.zip\r\n"]

@@ -1,6 +1,187 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Run the fixed Diagnostic Packet sample without touching your project."><meta name="theme-color" content="#f2efe6"><meta property="og:type" content="website"><meta property="og:title" content="Demo — Diagnostic Packet"><meta property="og:description" content="Run the bundled packet sample in an isolated demo."><meta property="og:image" content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"><meta name="twitter:card" content="summary_large_image"><link rel="canonical" href="https://dev-diagnostic-packet.sociobot.in/demo/"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><title>Demo — Diagnostic Packet</title><link rel="stylesheet" href="/src/style.css"></head><body data-route="demo" data-demo="true"><a class="skip-link" href="#main">Skip to content</a><header class="masthead wrap"><a class="wordmark" href="/" aria-label="Diagnostic Packet, home"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><nav aria-label="Primary navigation"><a href="/demo/" aria-current="page">Demo</a><a href="/#workflow">How it works</a><a href="/#manifest">Manifest</a><a href="/privacy/">Privacy</a></nav><p class="edition">Sample edition</p></header><p id="route-announcement" class="sr-only" aria-live="polite"></p><main id="main" class="demo-page wrap"><header class="legal-header"><p class="section-number">Bundled sample</p><h1 tabindex="-1">Run a sample packet.</h1><p class="deck">This isolated demo uses fixed sample data. It does not read or save your project data.</p></header><section class="demo-section ruled-section" id="demo" aria-labelledby="demo-title"><h2 id="demo-title">Editor startup failure sample</h2><div class="demo-shell" data-demo-ui><div class="demo-tabs" role="tablist" aria-label="Packet workflow stages"><button role="tab" aria-selected="true" aria-controls="demo-panel" id="tab-preview" data-stage="preview" type="button"><span>01</span> Preview</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-capture" data-stage="capture" tabindex="-1" type="button"><span>02</span> Capture</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-inspect" data-stage="inspect" tabindex="-1" type="button"><span>03</span> Inspect</button><button role="tab" aria-selected="false" aria-controls="demo-panel" id="tab-export" data-stage="export" tabindex="-1" type="button"><span>04</span> Export</button></div><div class="demo-grid" id="demo-panel" role="tabpanel" aria-labelledby="tab-preview"><div class="manifest-pane"><div class="pane-label"><span>diagnostic-packet.toml</span><span class="local-badge">Bundled</span></div><pre tabindex="0" aria-label="Bundled sample manifest"><code>title = <span class="string">"Editor startup failure"</span>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Run the fixed Diagnostic Packet sample without touching your project."
+    />
+    <meta name="theme-color" content="#f2efe6" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Demo — Diagnostic Packet" />
+    <meta
+      property="og:description"
+      content="Run the bundled packet sample in an isolated demo."
+    />
+    <meta
+      property="og:image"
+      content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"
+    />
+    <meta
+      property="og:url"
+      content="https://dev-diagnostic-packet.sociobot.in/demo/"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Demo — Diagnostic Packet" />
+    <meta
+      name="twitter:description"
+      content="Run the bundled packet sample in an isolated demo."
+    />
+    <meta
+      name="twitter:image"
+      content="https://dev-diagnostic-packet.sociobot.in/assets/social-card.webp"
+    />
+    <link
+      rel="canonical"
+      href="https://dev-diagnostic-packet.sociobot.in/demo/"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>Demo — Diagnostic Packet</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body data-route="demo" data-demo="true">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="masthead wrap">
+      <a class="wordmark" href="/" aria-label="Diagnostic Packet, home"
+        ><span class="seal" aria-hidden="true">DP</span
+        ><span>Diagnostic Packet</span></a
+      >
+      <nav aria-label="Primary navigation">
+        <a href="/demo/" aria-current="page">Demo</a
+        ><a href="/#workflow">How it works</a><a href="/#manifest">Manifest</a
+        ><a href="/privacy/">Privacy</a>
+      </nav>
+      <p class="edition">Sample edition</p>
+    </header>
+    <p id="route-announcement" class="sr-only" aria-live="polite"></p>
+    <main id="main" class="demo-page wrap">
+      <header class="legal-header">
+        <p class="section-number">Bundled sample</p>
+        <h1 tabindex="-1">Run a sample packet.</h1>
+        <p class="deck">
+          This isolated demo uses fixed sample data. It does not read or save
+          your project data.
+        </p>
+      </header>
+      <section
+        class="demo-section ruled-section"
+        id="demo"
+        aria-labelledby="demo-title"
+      >
+        <h2 id="demo-title">Editor startup failure sample</h2>
+        <div class="demo-shell" data-demo-ui>
+          <div
+            class="demo-tabs"
+            role="tablist"
+            aria-label="Packet workflow stages"
+          >
+            <button
+              role="tab"
+              aria-selected="true"
+              aria-controls="demo-panel"
+              id="tab-preview"
+              data-stage="preview"
+              type="button"
+            >
+              <span>01</span> Preview</button
+            ><button
+              role="tab"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              id="tab-capture"
+              data-stage="capture"
+              tabindex="-1"
+              type="button"
+            >
+              <span>02</span> Capture</button
+            ><button
+              role="tab"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              id="tab-inspect"
+              data-stage="inspect"
+              tabindex="-1"
+              type="button"
+            >
+              <span>03</span> Inspect</button
+            ><button
+              role="tab"
+              aria-selected="false"
+              aria-controls="demo-panel"
+              id="tab-export"
+              data-stage="export"
+              tabindex="-1"
+              type="button"
+            >
+              <span>04</span> Export
+            </button>
+          </div>
+          <div
+            class="demo-grid"
+            id="demo-panel"
+            role="tabpanel"
+            aria-labelledby="tab-preview"
+          >
+            <div class="manifest-pane">
+              <div class="pane-label">
+                <span>diagnostic-packet.toml</span
+                ><span class="local-badge">Bundled</span>
+              </div>
+              <pre
+                tabindex="0"
+                aria-label="Bundled sample manifest"
+              ><code>title = <span class="string">"Editor startup failure"</span>
 
 [[collectors]]
 id = <span class="string">"editor-log"</span>
 type = <span class="string">"log"</span>
-path = <span class="string">".logs/editor.log"</span></code></pre></div><div class="output-pane"><div class="pane-label"><span id="demo-state-label">Collection plan</span><span class="status-dot" id="demo-status">No data read</span></div><div class="terminal-output" id="demo-output" aria-live="polite" aria-atomic="true"></div><div class="demo-actions"><button class="secondary-button" id="next-stage" type="button">Capture sample</button><button class="quiet-button" id="unsafe-demo" type="button">Test an unsafe path</button></div></div></div></div></section></main><footer class="footer wrap"><a class="wordmark" href="/"><span class="seal" aria-hidden="true">DP</span><span>Diagnostic Packet</span></a><p>Collect and redact evidence for local failures.</p><nav aria-label="Legal and project links"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet" target="_blank" rel="noopener noreferrer">GitHub <span class="sr-only">(opens GitHub)</span></a></nav><p class="network-state" id="network-state" aria-live="polite">Offline after the first visit</p><p class="build-id">Built by Param Factory<br>build 90431fa</p></footer><script type="module" src="/src/main.ts"></script></body></html>
+path = <span class="string">".logs/editor.log"</span></code></pre>
+            </div>
+            <div class="output-pane">
+              <div class="pane-label">
+                <span id="demo-state-label">Collection plan</span
+                ><span class="status-dot" id="demo-status">No data read</span>
+              </div>
+              <div
+                class="terminal-output"
+                id="demo-output"
+                aria-live="polite"
+                aria-atomic="true"
+              ></div>
+              <div class="demo-actions">
+                <button class="secondary-button" id="next-stage" type="button">
+                  Capture sample</button
+                ><button class="quiet-button" id="unsafe-demo" type="button">
+                  Test an unsafe path
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer wrap">
+      <a class="wordmark" href="/"
+        ><span class="seal" aria-hidden="true">DP</span
+        ><span>Diagnostic Packet</span></a
+      >
+      <p>Collect and redact evidence for local failures.</p>
+      <nav aria-label="Legal and project links">
+        <a href="/privacy/">Privacy</a><a href="/terms/">Terms</a
+        ><a
+          href="https://github.com/B-Divyesh/sf-dev-diagnostic-packet"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub <span class="sr-only">(opens GitHub)</span></a
+        >
+      </nav>
+      <p class="network-state" id="network-state" aria-live="polite">
+        Offline after the first visit
+      </p>
+      <p class="build-id">Built by Param Factory<br />v0.1.1 · polish 2</p>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

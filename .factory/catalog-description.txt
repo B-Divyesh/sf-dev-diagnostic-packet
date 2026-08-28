@@ -1,1 +1,1 @@
-Build a redacted bug-report packet from local development evidence.
+Collect and redact local failure evidence into an inspectable bug-report packet.

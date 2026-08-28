@@ -15,8 +15,8 @@ use std::{
 #[command(
     name = "diagnostic-packet",
     version,
-    about = "Build a safe, inspectable reproduction packet",
-    long_about = "Build a safe, inspectable reproduction packet from an opt-in project manifest.\n\nThe workflow is intentionally staged: preview the plan, capture locally, inspect every file, then export. Nothing is uploaded and commands never run without approval."
+    about = "Collect and redact evidence for a reproduction packet",
+    long_about = "Collect and redact evidence from an opt-in project checklist.\n\nPreview the plan, capture locally, inspect every file, then export. Nothing is uploaded and commands never run without approval."
 )]
 struct Cli {
     /// Disable interactive prompts. Unsafe or unapproved work fails instead.

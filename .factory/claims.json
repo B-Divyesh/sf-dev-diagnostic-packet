@@ -1,21 +1,177 @@
 [
-  {"id":"local-only","claim":"The CLI makes no network requests and writes only to local files.","where":"landing, README, Privacy","test":"npm test -- --grep @claim:local-only","sandbox":"fresh temporary directory; bundled CLI demo"},
-  {"id":"manifest-plan","claim":"A TOML manifest lists the collection items before capture.","where":"landing, README","test":"npm test -- --grep @claim:manifest-plan","sandbox":"bundled CLI demo"},
-  {"id":"preview-read-only","claim":"Preview reads nothing and runs no commands.","where":"landing, README","test":"npm test -- --grep @claim:preview-read-only","sandbox":"fresh temporary directory"},
-  {"id":"command-approval","claim":"Supported version commands run only after approval.","where":"landing, README","test":"npm test -- --grep @claim:command-approval","sandbox":"fresh temporary directory"},
-  {"id":"redact-before-disk","claim":"Common secrets are redacted before copied logs reach the review folder.","where":"landing, README","test":"npm test -- --grep @claim:redact-before-disk","sandbox":"bundled CLI demo"},
-  {"id":"config-hash-only","claim":"Configuration items record a SHA-256 fingerprint instead of file contents.","where":"landing, README","test":"npm test -- --grep @claim:config-hash-only","sandbox":"bundled CLI demo"},
-  {"id":"manifest-boundaries","claim":"Only supported collection types and project-relative paths are accepted.","where":"landing, README","test":"npm test -- --grep @claim:manifest-boundaries","sandbox":"fresh temporary directory"},
-  {"id":"inspection-ledger","claim":"Inspection reports each review file, size, and SHA-256 fingerprint.","where":"landing, README","test":"npm test -- --grep @claim:inspection-ledger","sandbox":"bundled CLI demo"},
-  {"id":"inspection-required","claim":"Export works only after inspection and blocks changed review files.","where":"landing, README","test":"npm test -- --grep @claim:inspection-required","sandbox":"fresh temporary directory"},
-  {"id":"archive-contents","claim":"The packet ZIP contains the inspected report and redacted evidence, not executables.","where":"landing, README","test":"npm test -- --grep @claim:archive-contents","sandbox":"bundled CLI demo"},
-  {"id":"demo-sandbox","claim":"Demo uses sample data and separate browser storage.","where":"demo banner, Privacy","test":"npm test -- --grep @claim:demo-sandbox","sandbox":"fresh browser context at /demo"},
-  {"id":"offline-reload","claim":"The documentation and demo work offline after the first visit.","where":"footer","test":"npm test -- --grep @claim:offline-reload","sandbox":"fresh browser context, offline after service-worker activation"},
-  {"id":"free-source-install","claim":"The source install command is free and builds the documented binary.","where":"landing, README, Terms","test":"npm test -- --grep @claim:free-source-install","sandbox":"clean repository checkout"},
-  {"id":"cli-contract","claim":"CLI commands have help, JSON output where documented, CI-safe approval, and documented exit codes.","where":"README","test":"npm test -- --grep @claim:cli-contract","sandbox":"fresh temporary directory"},
-  {"id":"clean-build","claim":"npm run build creates dist/diagnostic-packet and dist/site/.","where":"README","test":"npm test -- --grep @claim:clean-build","sandbox":"clean repository checkout"},
-  {"id":"site-private","claim":"The documentation site has no analytics, cookies, accounts, or third-party scripts.","where":"Privacy","test":"npm test -- --grep @claim:site-private","sandbox":"fresh browser context"},
-  {"id":"clear-cache","claim":"Clearing site data removes the documentation cache.","where":"Privacy","test":"npm test -- --grep @claim:clear-cache","sandbox":"fresh browser context"},
-  {"id":"demo-keyboard","claim":"The demo stages work with arrow keys, Home, and End.","where":"demo","test":"npm test -- --grep @claim:demo-keyboard","sandbox":"fresh browser context at /demo"},
-  {"id":"routes-and-404","claim":"Demo, legal pages, and a designed not-found page have distinct titles and routes.","where":"site navigation","test":"npm test -- --grep @claim:routes-and-404","sandbox":"production static site"}
+  {
+    "id": "local-only",
+    "claim": "The CLI opens no network sockets and demo writes stay inside its new temporary folder.",
+    "where": "landing, README, Privacy",
+    "test": "npm test -- --grep @claim:local-only",
+    "sandbox": "LD_PRELOAD socket denial and file-operation audit; fresh TMPDIR"
+  },
+  {
+    "id": "manifest-plan",
+    "claim": "The project checklist lists every collection item before capture.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:manifest-plan",
+    "sandbox": "fresh temporary project; compare complete JSON preview"
+  },
+  {
+    "id": "preview-read-only",
+    "claim": "Preview reads only the checklist and runs no commands.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:preview-read-only",
+    "sandbox": "LD_PRELOAD file and exec audit"
+  },
+  {
+    "id": "command-approval",
+    "claim": "Supported version commands run only after approval.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:command-approval",
+    "sandbox": "approved, unapproved, unknown executable, and unsafe argument cases"
+  },
+  {
+    "id": "redact-before-disk",
+    "claim": "Tokens, emails, IP addresses, and home paths are redacted before copied logs reach the review folder.",
+    "where": "landing, README, Privacy",
+    "test": "npm test -- --grep @claim:redact-before-disk",
+    "sandbox": "prewritten raw fixture; write audit plus review-folder and ZIP scan"
+  },
+  {
+    "id": "config-hash-only",
+    "claim": "Configuration items record the exact SHA-256 hash instead of file contents.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:config-hash-only",
+    "sandbox": "independent hash and complete output scan"
+  },
+  {
+    "id": "manifest-boundaries",
+    "claim": "Only five supported collection types and project-relative resolved paths are accepted.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:manifest-boundaries",
+    "sandbox": "all accepted types plus unknown, absolute, traversal, symlink, command, and environment boundaries"
+  },
+  {
+    "id": "inspection-ledger",
+    "claim": "Inspection reports every review file, byte size, and SHA-256 hash.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:inspection-ledger",
+    "sandbox": "independent recursive inventory and hashes"
+  },
+  {
+    "id": "inspection-required",
+    "claim": "Export works only after inspection and blocks changed review files.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:inspection-required",
+    "sandbox": "before, clean after, and mutated after inspection"
+  },
+  {
+    "id": "archive-contents",
+    "claim": "The packet ZIP exactly matches inspected reports and redacted text evidence, with no executable content.",
+    "where": "landing, README",
+    "test": "npm test -- --grep @claim:archive-contents",
+    "sandbox": "ZIP names and bytes compared to inspection ledger"
+  },
+  {
+    "id": "cli-demo-isolation",
+    "claim": "The CLI demo leaves its launch folder unchanged and writes only to a fresh operating-system temporary folder.",
+    "where": "landing, README, demo guide",
+    "test": "npm test -- --grep @claim:cli-demo-isolation",
+    "sandbox": "sentinel launch folder and dedicated TMPDIR"
+  },
+  {
+    "id": "starter-manifest",
+    "claim": "Init creates the documented starter checklist and never overwrites an existing file.",
+    "where": "README",
+    "test": "npm test -- --grep @claim:starter-manifest",
+    "sandbox": "fresh temporary project and second init"
+  },
+  {
+    "id": "log-truncation",
+    "claim": "Copied logs stop at the declared byte limit and remain redacted.",
+    "where": "README",
+    "test": "npm test -- --grep @claim:log-truncation",
+    "sandbox": "oversize secret fixture with max_bytes=80"
+  },
+  {
+    "id": "sensitive-env",
+    "claim": "Sensitive environment names are rejected.",
+    "where": "README",
+    "test": "npm test -- --grep @claim:sensitive-env",
+    "sandbox": "representative blocked and allowed names"
+  },
+  {
+    "id": "demo-sandbox",
+    "claim": "The web demo uses separate sample storage that Reset and Install the CLI discard without changing real storage.",
+    "where": "demo banner, Privacy",
+    "test": "npm test -- --grep @claim:demo-sandbox",
+    "sandbox": "fresh browser context at ?demo=1"
+  },
+  {
+    "id": "offline-reload",
+    "claim": "The documentation and demo work offline after the first visit.",
+    "where": "footer",
+    "test": "npm test -- --grep @claim:offline-reload",
+    "sandbox": "fresh browser context, offline after service-worker activation"
+  },
+  {
+    "id": "free-source-install",
+    "claim": "The public Git install builds the MIT-licensed CLI and its demo runs.",
+    "where": "landing, README, Terms",
+    "test": "npm test -- --grep @claim:free-source-install",
+    "sandbox": "public Git URL and fresh Cargo root"
+  },
+  {
+    "id": "cli-contract",
+    "claim": "Every command has help; documented JSON, CI approval, and exit codes work.",
+    "where": "README",
+    "test": "npm test -- --grep @claim:cli-contract",
+    "sandbox": "fresh temporary project; every subcommand and exit code"
+  },
+  {
+    "id": "clean-build",
+    "claim": "After npm ci, npm run build creates dist/diagnostic-packet and dist/site/ in a clean clone.",
+    "where": "README",
+    "test": "npm test -- --grep @claim:clean-build",
+    "sandbox": "fresh local Git clone with build outputs removed"
+  },
+  {
+    "id": "site-private",
+    "claim": "The full web demo has no analytics, cookies, accounts, or third-party scripts.",
+    "where": "Privacy",
+    "test": "npm test -- --grep @claim:site-private",
+    "sandbox": "fresh browser context; full demo request, script, storage, cookie, and UI audit"
+  },
+  {
+    "id": "clear-cache",
+    "claim": "Clearing browser site data removes caches, demo storage, and service-worker registration.",
+    "where": "Privacy",
+    "test": "npm test -- --grep @claim:clear-cache",
+    "sandbox": "Chrome DevTools clear-origin-data operation"
+  },
+  {
+    "id": "demo-keyboard",
+    "claim": "The demo stages work with arrow keys, Home, and End.",
+    "where": "demo",
+    "test": "npm test -- --grep @claim:demo-keyboard",
+    "sandbox": "fresh browser context at /demo"
+  },
+  {
+    "id": "routes-and-404",
+    "claim": "Every published route has distinct titles, complete social metadata, icons, and a designed not-found page.",
+    "where": "site navigation",
+    "test": "npm test -- --grep @claim:routes-and-404",
+    "sandbox": "production static site route matrix"
+  },
+  {
+    "id": "download-starter",
+    "claim": "Download starter manifest saves a parseable diagnostic-packet.toml with required fields.",
+    "where": "landing",
+    "test": "npm test -- --grep @claim:download-starter",
+    "sandbox": "browser download capture"
+  },
+  {
+    "id": "cli-demo-recording",
+    "claim": "The page includes a self-hosted terminal recording from the real bundled CLI demo.",
+    "where": "landing demo",
+    "test": "npm test -- --grep @claim:cli-demo-recording",
+    "sandbox": "run real binary and compare signature output with cast and accessible transcript"
+  }
 ]

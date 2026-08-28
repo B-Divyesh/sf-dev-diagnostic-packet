@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
-for (const path of ['/', '/privacy/', '/terms/']) {
+for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404.html']) {
   test(`${path} has a clean accessible structure`, async ({ page }) => {
     const consoleErrors: string[] = [];
     page.on('console', (message) => { if (message.type() === 'error') consoleErrors.push(message.text()); });
@@ -45,6 +45,27 @@ test('mobile layout does not overflow', async ({ page }) => {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   expect(overflow).toBeLessThanOrEqual(1);
   await expect(page.locator('img[alt]')).toBeVisible();
+});
+
+test('first screen states the job, audience, action, and three facts', async ({ page }) => {
+  for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+    await page.setViewportSize(viewport);
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Collect and redact bug-report evidence');
+    await expect(page.locator('.deck')).toContainText('For developers reporting local failures');
+    await expect(page.getByRole('link', { name: /Try it with sample data/ })).toBeInViewport();
+    await expect(page.locator('.trust-line li')).toHaveCount(3);
+  }
+});
+
+test('all navigation and demo controls meet the 44px touch baseline', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/?demo=1#demo');
+  const targets = page.locator('.demo-banner a, .demo-banner button, .masthead nav a, button, .primary-action');
+  for (let index = 0; index < await targets.count(); index += 1) {
+    const box = await targets.nth(index).boundingBox();
+    if (box) expect(Math.min(box.width, box.height), await targets.nth(index).innerText()).toBeGreaterThanOrEqual(44);
+  }
 });
 
 test('@claim:offline-reload production shell and demo reload offline after service worker activation', async ({ browser }) => {
