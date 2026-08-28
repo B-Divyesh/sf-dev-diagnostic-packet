@@ -1,0 +1,14 @@
+{
+  "url": "https://dev-diagnostic-packet.sociobot.in/?demo=1#demo",
+  "loadMs": 2479,
+  "errors": [],
+  "a11y": {
+    "title": "Diagnostic Packet — Collect and redact bug evidence",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 2843
+  }
+}
