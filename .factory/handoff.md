@@ -69,10 +69,24 @@ packet-0.1.1.crate`; publishing is intentionally not performed.
 
 ## Deployment and live verification
 
-The static deployment and live URL evidence are added immediately after the
-release upload. Expected live assertions are HTTPS 200, the generated shell
-loading after an offline reload, immutable asset/font cache headers, CSP,
-Permissions-Policy, and no third-party network requests.
+- Deployed commit `f703d8e` through the static work-order configuration on
+  2026-08-28 UTC. Azure Static Web Apps deployment
+  `4d030ebe-8fbb-4444-b55f-3336774d99b2` completed successfully; the custom
+  domain returned HTTPS 200 immediately after upload.
+- `/opt/fleet/lib/verify-url.sh https://dev-diagnostic-packet.sociobot.in/ …`:
+  pass — title, `lang=en`, one `<h1>`, main landmark, image alt text, labeled
+  controls, and zero browser errors; desktop load time was 1066 ms.
+- Live response headers: HTML and `sw.js` return `no-cache, no-store,
+  must-revalidate`; hashed JS and self-hosted fonts return `public,
+  max-age=31536000, immutable`. Every checked response includes the deployed
+  same-origin Content-Security-Policy, Permissions-Policy, `nosniff`, and
+  strict-origin referrer policy.
+- Live mobile Chromium (390 × 844): after worker activation and one online
+  reload, an offline reload retained the headline and initialized Preview demo;
+  `navigator.onLine` was false and there were zero console/page errors. The
+  only requested host was `dev-diagnostic-packet.sociobot.in`.
+- Identity check: SHA-256 matched `dist/site` for live `/`, `/privacy/`,
+  `/terms/`, emitted JS/CSS, and `sw.js`.
 
 ## Known gaps / next steps
 
